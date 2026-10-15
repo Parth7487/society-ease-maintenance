@@ -1,0 +1,3549 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>SocietyEase - Secretary Dashboard & WhatsApp Hub</title>
+  
+  <!-- Modern Typography: Plus Jakarta Sans for UI + JetBrains Mono for numbers -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM TOKENS - LIGHT & DARK THEMES
+       Derived from Styleguide image.png (Soft tactile neumorphic / claymorphic)
+       ========================================================================== */
+    :root, [data-theme="light"] {
+      /* Canvas & Surfaces */
+      --bg-canvas: #EFF2F6;
+      --bg-canvas-pattern: radial-gradient(#CBD5E1 0.85px, transparent 0.85px);
+      --bg-surface: #FFFFFF;
+      --bg-surface-alt: #F7F9FB;
+      --bg-inset: #E7EBF0;
+      
+      /* Primary Mint Colors (from image.png) */
+      --color-primary: #86DFC5;
+      --color-primary-hover: #72D2B5;
+      --color-primary-focus: #00CFCC;
+      --color-primary-text: #064E3B;
+      
+      --color-border: #E0E4EB;
+      --color-border-subtle: #ECEEF2;
+      
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --text-light: #94A3B8;
+      
+      /* Status Pill Colors */
+      --status-success-bg: #C1F1E1;
+      --status-success-text: #065F46;
+      --status-warning-bg: #FEE7A6;
+      --status-warning-text: #92400E;
+      --status-error-bg: #FDC7C7;
+      --status-error-text: #991B1B;
+      --status-neutral-bg: #E2E8F0;
+      --status-neutral-text: #475569;
+      
+      /* Neumorphic Elevations (Styleguide Levels 1 - 5) */
+      --shadow-elevation-1: 0 2px 5px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --shadow-elevation-2: 0 6px 14px -2px rgba(22, 38, 65, 0.06), 0 2px 4px rgba(22, 38, 65, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      --shadow-elevation-3: 0 12px 24px -4px rgba(22, 38, 65, 0.08), 0 4px 8px -2px rgba(22, 38, 65, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      --shadow-elevation-4: 0 18px 36px -6px rgba(22, 38, 65, 0.12), 0 8px 16px -3px rgba(22, 38, 65, 0.06);
+      --shadow-inset-bevel: inset 2px 2px 5px rgba(0, 0, 0, 0.06), inset -2px -2px 5px rgba(255, 255, 255, 0.85);
+      --shadow-focus-ring: 0 0 0 4px rgba(0, 207, 204, 0.28), 0 4px 12px rgba(0, 207, 204, 0.2);
+
+      --table-hover: #F8FAFC;
+    }
+
+    [data-theme="dark"] {
+      /* Canvas & Surfaces (Deep tactile midnight slate) */
+      --bg-canvas: #090D16;
+      --bg-canvas-pattern: radial-gradient(#1E293B 1px, transparent 1px);
+      --bg-surface: #131B2A;
+      --bg-surface-alt: #1A2438;
+      --bg-inset: #0C121D;
+      
+      /* Primary Mint in Dark Mode */
+      --color-primary: #5EEAD4;
+      --color-primary-hover: #2DD4BF;
+      --color-primary-focus: #00CFCC;
+      --color-primary-text: #042F2E;
+      
+      --color-border: #233148;
+      --color-border-subtle: #182232;
+      
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --text-light: #64748B;
+      
+      /* Status Pill Colors in Dark Mode */
+      --status-success-bg: rgba(16, 185, 129, 0.18);
+      --status-success-text: #6EE7B7;
+      --status-warning-bg: rgba(245, 158, 11, 0.18);
+      --status-warning-text: #FDE68A;
+      --status-error-bg: rgba(239, 68, 68, 0.18);
+      --status-error-text: #FCA5A5;
+      --status-neutral-bg: rgba(148, 163, 184, 0.14);
+      --status-neutral-text: #CBD5E1;
+      
+      /* Soft Dark Elevations */
+      --shadow-elevation-1: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      --shadow-elevation-2: 0 6px 14px -2px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      --shadow-elevation-3: 0 12px 24px -4px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+      --shadow-elevation-4: 0 20px 36px -6px rgba(0, 0, 0, 0.8);
+      --shadow-inset-bevel: inset 2px 2px 5px rgba(0, 0, 0, 0.6), inset -2px -2px 5px rgba(255, 255, 255, 0.03);
+      --shadow-focus-ring: 0 0 0 4px rgba(0, 207, 204, 0.35), 0 4px 14px rgba(0, 207, 204, 0.25);
+
+      --table-hover: #182234;
+    }
+
+    /* Radii */
+    :root {
+      --radius-pill: 9999px;
+      --radius-card: 22px;
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --transition-smooth: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Universal Mobile Base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      width: 100%;
+      overflow-x: hidden;
+      font-size: 16px;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      background-image: var(--bg-canvas-pattern);
+      background-size: 24px 24px;
+      color: var(--text-main);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      padding: clamp(12px, 3vw, 24px) clamp(10px, 2.5vw, 20px) 40px clamp(10px, 2.5vw, 20px);
+      line-height: 1.5;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       TOP HEADER & BRAND SECTION
+       ========================================================================== */
+    .top-header {
+      background: var(--bg-surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-elevation-3);
+      padding: clamp(14px, 2.5vw, 20px) clamp(14px, 3vw, 24px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: clamp(14px, 2.5vw, 24px);
+      border: 1px solid var(--color-border);
+      width: 100%;
+      transition: var(--transition-smooth);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: clamp(10px, 2vw, 14px);
+      flex: 1 1 280px;
+      min-width: 0;
+    }
+
+    .brand-avatar {
+      width: clamp(42px, 7vw, 50px);
+      height: clamp(42px, 7vw, 50px);
+      border-radius: 14px;
+      background: linear-gradient(135deg, #A8EDD7 0%, #76D7B9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-elevation-2);
+      color: #064E3B;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .brand-text h1 {
+      font-size: clamp(16px, 3.8vw, 20px);
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      line-height: 1.25;
+    }
+
+    .brand-text p {
+      font-size: clamp(11.5px, 2.6vw, 13px);
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex: 1 1 320px;
+      justify-content: flex-end;
+    }
+
+    /* Dark/Light Mode Tactile Toggle Button */
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--color-border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: clamp(11.5px, 2.4vw, 12.5px);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-elevation-1);
+      transition: var(--transition-smooth);
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--bg-surface);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-elevation-2);
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      background: var(--bg-inset);
+      box-shadow: var(--shadow-inset-bevel);
+      padding: 3px;
+      border-radius: var(--radius-pill);
+      gap: 2px;
+      max-width: 100%;
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      padding: clamp(5px, 1.2vw, 7px) clamp(8px, 1.8vw, 14px);
+      border-radius: var(--radius-pill);
+      font-size: clamp(11px, 2.4vw, 12.5px);
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+    }
+
+    .lang-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: var(--shadow-elevation-1);
+    }
+
+    /* Billing cycle toggle */
+    .cycle-toggle {
+      display: flex;
+      align-items: center;
+      background: var(--bg-inset);
+      box-shadow: var(--shadow-inset-bevel);
+      padding: 3px;
+      border-radius: var(--radius-pill);
+      gap: 2px;
+    }
+
+    .cycle-btn {
+      padding: clamp(5px, 1.2vw, 7px) clamp(8px, 1.8vw, 12px);
+      border-radius: var(--radius-pill);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      font-weight: 700;
+      font-size: clamp(11px, 2.4vw, 12px);
+      white-space: nowrap;
+    }
+
+    .cycle-btn.active {
+      background: var(--color-primary);
+      color: var(--color-primary-text);
+      box-shadow: 0 2px 8px rgba(114, 210, 181, 0.45);
+    }
+
+    /* Secretary Badge */
+    .sec-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      padding: 6px 12px;
+      font-size: clamp(11.5px, 2.5vw, 12.5px);
+      font-weight: 700;
+      color: var(--text-main);
+      box-shadow: var(--shadow-elevation-1);
+      white-space: nowrap;
+    }
+
+    .sec-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 6px #10B981;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       STRATEGY CALLOUT BANNER
+       ========================================================================== */
+    .alert-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: clamp(12px, 2.5vw, 14px) clamp(14px, 3vw, 20px);
+      border-radius: clamp(14px, 3vw, var(--radius-pill));
+      font-size: clamp(12px, 2.6vw, 13px);
+      font-weight: 600;
+      margin-bottom: clamp(16px, 3vw, 22px);
+      box-shadow: var(--shadow-elevation-1);
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .alert-banner.success {
+      background: var(--status-success-bg);
+      color: var(--status-success-text);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .alert-banner.warning {
+      background: var(--status-warning-bg);
+      color: var(--status-warning-text);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .alert-banner-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      flex: 1 1 240px;
+      min-width: 0;
+    }
+
+    .alert-banner-left i {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       KEY METRICS OVERVIEW CARDS
+       ========================================================================== */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(10px, 2vw, 16px);
+      margin-bottom: clamp(16px, 3vw, 24px);
+      width: 100%;
+    }
+
+    .metric-card {
+      background: var(--bg-surface);
+      border-radius: clamp(16px, 3vw, var(--radius-card));
+      padding: clamp(14px, 2.5vw, 20px);
+      box-shadow: var(--shadow-elevation-2);
+      border: 1px solid var(--color-border);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-elevation-3);
+    }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .metric-icon-wrap {
+      width: clamp(36px, 6vw, 42px);
+      height: clamp(36px, 6vw, 42px);
+      border-radius: 12px;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      box-shadow: var(--shadow-elevation-1);
+      flex-shrink: 0;
+    }
+
+    .metric-badge {
+      font-size: clamp(10px, 2.2vw, 11.5px);
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+    }
+
+    .metric-value {
+      font-size: clamp(18px, 4.2vw, 25px);
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+      margin-bottom: 2px;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .metric-label {
+      font-size: clamp(11.5px, 2.4vw, 12.5px);
+      color: var(--text-muted);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .metric-sub {
+      font-size: clamp(10.5px, 2.2vw, 11.5px);
+      color: var(--text-light);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================================================
+       TACTILE SEGMENTED TABS
+       ========================================================================== */
+    .nav-tabs-wrapper {
+      background: var(--bg-surface);
+      padding: 6px;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-elevation-2);
+      display: flex;
+      gap: 4px;
+      margin-bottom: clamp(16px, 3vw, 24px);
+      overflow-x: auto;
+      border: 1px solid var(--color-border);
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      width: 100%;
+    }
+    .nav-tabs-wrapper::-webkit-scrollbar { display: none; }
+
+    .nav-tab-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: clamp(8px, 1.8vw, 10px) clamp(12px, 2.2vw, 18px);
+      border-radius: var(--radius-pill);
+      border: none;
+      background: transparent;
+      font-size: clamp(12px, 2.5vw, 13.5px);
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition-smooth);
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      min-height: 40px;
+    }
+
+    .nav-tab-item:hover {
+      color: var(--text-main);
+      background: rgba(128, 128, 128, 0.08);
+    }
+
+    .nav-tab-item.active {
+      background: var(--color-primary);
+      color: var(--color-primary-text);
+      box-shadow: 0 4px 12px rgba(134, 223, 197, 0.5), inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .tab-badge {
+      background: rgba(0, 0, 0, 0.08);
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      font-size: 10.5px;
+      font-weight: 800;
+    }
+
+    .nav-tab-item.active .tab-badge {
+      background: rgba(6, 78, 59, 0.15);
+      color: var(--color-primary-text);
+    }
+
+    /* ==========================================================================
+       TACTILE ACTION BUTTONS & CHIPS
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: clamp(8px, 1.8vw, 10px) clamp(14px, 2.5vw, 18px);
+      border-radius: var(--radius-pill);
+      font-size: clamp(12px, 2.5vw, 13.5px);
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition-smooth);
+      text-decoration: none;
+      white-space: nowrap;
+      min-height: 38px;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: var(--color-primary-text);
+      box-shadow: 0 4px 14px rgba(114, 210, 181, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+      box-shadow: 0 6px 18px rgba(0, 207, 204, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-elevation-1);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-surface-alt);
+      box-shadow: var(--shadow-elevation-2);
+      transform: translateY(-1px);
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+    }
+
+    .btn-whatsapp:hover {
+      background: #20BD5A;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: clamp(11px, 2.2vw, 12px);
+      border-radius: var(--radius-pill);
+      min-height: 32px;
+    }
+
+    .btn-icon {
+      padding: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Styleguide Pill Badges / Chips */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: clamp(10.5px, 2.2vw, 12px);
+      font-weight: 700;
+      letter-spacing: 0.1px;
+      white-space: nowrap;
+    }
+
+    .chip-paid {
+      background: var(--status-success-bg);
+      color: var(--status-success-text);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .chip-pending {
+      background: var(--status-warning-bg);
+      color: var(--status-warning-text);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .chip-overdue {
+      background: var(--status-error-bg);
+      color: var(--status-error-text);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .chip-neutral {
+      background: var(--status-neutral-bg);
+      color: var(--status-neutral-text);
+      border: 1px solid var(--color-border);
+    }
+
+    /* Recessed Inputs from Styleguide */
+    .search-recessed {
+      position: relative;
+      flex: 1 1 260px;
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-inset);
+      border: 1.5px solid var(--color-border);
+      box-shadow: var(--shadow-inset-bevel);
+      border-radius: var(--radius-pill);
+      padding: 10px 42px 10px 16px;
+      font-size: clamp(13px, 2.6vw, 14px);
+      font-family: inherit;
+      color: var(--text-main);
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .search-input:focus {
+      border-color: var(--color-primary-focus);
+      background: var(--bg-surface);
+      box-shadow: var(--shadow-focus-ring);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       SECTION MAIN CARD & FILTER BAR
+       ========================================================================== */
+    .section-card {
+      background: var(--bg-surface);
+      border-radius: clamp(16px, 3.5vw, var(--radius-card));
+      box-shadow: var(--shadow-elevation-3);
+      padding: clamp(16px, 3.5vw, 24px);
+      margin-bottom: clamp(16px, 3vw, 24px);
+      border: 1px solid var(--color-border);
+      width: 100%;
+      transition: var(--transition-smooth);
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: clamp(14px, 2.5vw, 20px);
+    }
+
+    .section-title {
+      font-size: clamp(16px, 3.6vw, 19px);
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.3;
+    }
+
+    .section-subtitle {
+      font-size: clamp(11.5px, 2.5vw, 13px);
+      color: var(--text-muted);
+      margin-top: 3px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: clamp(14px, 2.5vw, 20px);
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      width: 100%;
+    }
+
+    .filter-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      overflow-x: auto;
+      max-width: 100%;
+      padding-bottom: 2px;
+    }
+
+    .filter-chip-btn {
+      border: 1px solid var(--color-border);
+      background: var(--bg-surface-alt);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      font-size: clamp(11px, 2.3vw, 12px);
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+    }
+
+    .filter-chip-btn:hover {
+      background: var(--bg-surface);
+      color: var(--text-main);
+    }
+
+    .filter-chip-btn.active {
+      background: var(--text-main);
+      color: var(--bg-surface);
+      border-color: var(--text-main);
+      box-shadow: var(--shadow-elevation-1);
+    }
+
+    /* ==========================================================================
+       DESKTOP TABLE & MOBILE CARD ADAPTIVE LIST
+       ========================================================================== */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      background: var(--bg-surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: clamp(12.5px, 2.5vw, 13.5px);
+    }
+
+    thead th {
+      background: var(--bg-surface-alt);
+      color: var(--text-muted);
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--color-border-subtle);
+      transition: background-color 0.15s ease;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background-color: var(--table-hover);
+    }
+
+    td {
+      padding: 12px 16px;
+      vertical-align: middle;
+    }
+
+    .flat-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .flat-number-badge {
+      width: clamp(38px, 6vw, 44px);
+      height: clamp(38px, 6vw, 44px);
+      border-radius: 12px;
+      background: var(--bg-inset);
+      box-shadow: var(--shadow-inset-bevel);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: clamp(12px, 2.5vw, 13px);
+      color: var(--text-main);
+      line-height: 1.1;
+      flex-shrink: 0;
+    }
+
+    .flat-wing {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .resident-name {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: clamp(13px, 2.6vw, 14px);
+    }
+
+    .resident-phone {
+      font-size: clamp(11px, 2.2vw, 12px);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .amount-cell {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: clamp(13px, 2.6vw, 14.5px);
+      color: var(--text-main);
+    }
+
+    .overdue-note {
+      font-size: 11px;
+      color: #DC2626;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .actions-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================================================
+       EXPENSE TRACKER
+       ========================================================================== */
+    .expenses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: clamp(12px, 2.5vw, 18px);
+      width: 100%;
+    }
+
+    .expense-card {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: clamp(14px, 3vw, 18px);
+      box-shadow: var(--shadow-elevation-1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+    }
+
+    .expense-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .expense-title {
+      font-weight: 700;
+      font-size: clamp(13.5px, 2.8vw, 15px);
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .progress-track {
+      height: 10px;
+      background: var(--bg-inset);
+      box-shadow: var(--shadow-inset-bevel);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin: 12px 0 8px 0;
+      width: 100%;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, #86DFC5, #34D399);
+      transition: width 0.6s ease;
+    }
+
+    .progress-fill.warn {
+      background: linear-gradient(90deg, #FDE68A, #F59E0B);
+    }
+
+    .expense-stats-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: clamp(11px, 2.2vw, 12px);
+      font-weight: 600;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    /* ==========================================================================
+       WHATSAPP BROADCAST HUB & PHONE MOCKUP
+       ========================================================================== */
+    .wa-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: clamp(16px, 3vw, 24px);
+      width: 100%;
+      align-items: start;
+    }
+
+    .wa-form-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      padding: clamp(14px, 3vw, 20px);
+      border: 1px solid var(--color-border);
+      width: 100%;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+      width: 100%;
+    }
+
+    .form-label {
+      display: block;
+      font-size: clamp(11.5px, 2.4vw, 12.5px);
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-select, .form-textarea {
+      width: 100%;
+      background: var(--bg-inset);
+      border: 1.5px solid var(--color-border);
+      box-shadow: var(--shadow-inset-bevel);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: clamp(13px, 2.6vw, 14px);
+      color: var(--text-main);
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .form-select:focus, .form-textarea:focus {
+      border-color: var(--color-primary-focus);
+      background: var(--bg-surface);
+      box-shadow: var(--shadow-focus-ring);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    /* WhatsApp Phone Simulation */
+    .phone-mockup {
+      background: #111827;
+      border-radius: 32px;
+      padding: 10px;
+      box-shadow: var(--shadow-elevation-4);
+      max-width: 320px;
+      width: 100%;
+      margin: 0 auto;
+      border: 3px solid #1F2937;
+    }
+
+    .phone-screen {
+      background: #EFEAE2;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" opacity="0.04"><path d="M20 20 L40 40 M60 20 L20 60" stroke="%23000" stroke-width="2"/></svg>');
+      border-radius: 22px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 420px;
+      width: 100%;
+    }
+
+    .phone-header {
+      background: #075E54;
+      color: #FFFFFF;
+      padding: 12px 14px 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .phone-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #128C7E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11.5px;
+      font-weight: 700;
+      flex-shrink: 0;
+      color: #FFFFFF;
+    }
+
+    .phone-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .phone-sub {
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    .phone-chat {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-bubble {
+      background: #FFFFFF;
+      color: #111827;
+      border-radius: 10px 10px 10px 2px;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.4;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+      max-width: 95%;
+      position: relative;
+      word-break: break-word;
+    }
+
+    .chat-qr-preview {
+      width: 120px;
+      height: 120px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      margin: 8px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+
+    .chat-time {
+      font-size: 9px;
+      color: #8696A0;
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    /* ==========================================================================
+       GRIEVANCE & NOTICE BOARD CARDS
+       ========================================================================== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: clamp(14px, 2.5vw, 18px);
+      width: 100%;
+    }
+
+    .grievance-card {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-elevation-1);
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .grievance-card:hover {
+      box-shadow: var(--shadow-elevation-2);
+      transform: translateY(-2px);
+    }
+
+    .grievance-img-box {
+      height: clamp(140px, 25vw, 170px);
+      background: #E2E8F0;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .grievance-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .grievance-body {
+      padding: clamp(12px, 2.5vw, 16px);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .grievance-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+
+    .grievance-loc {
+      font-size: clamp(10.5px, 2.2vw, 11.5px);
+      color: var(--text-muted);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .grievance-title {
+      font-weight: 700;
+      font-size: clamp(13.5px, 2.8vw, 15px);
+      color: var(--text-main);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .grievance-desc {
+      font-size: clamp(11.5px, 2.4vw, 12.5px);
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    .grievance-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid var(--color-border-subtle);
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Notice Card */
+    .notice-card {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--color-border);
+      border-left: 5px solid #00CFCC;
+      border-radius: var(--radius-md);
+      padding: clamp(14px, 2.5vw, 18px);
+      box-shadow: var(--shadow-elevation-1);
+      margin-bottom: 14px;
+      transition: var(--transition-smooth);
+      width: 100%;
+    }
+
+    .notice-card:hover {
+      box-shadow: var(--shadow-elevation-2);
+    }
+
+    .notice-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .notice-title {
+      font-weight: 700;
+      font-size: clamp(14px, 2.8vw, 15.5px);
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .notice-date {
+      font-size: clamp(11px, 2.2vw, 12px);
+      color: var(--text-light);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .notice-content {
+      font-size: clamp(12px, 2.5vw, 13px);
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    /* ==========================================================================
+       CONTACTS & UTILITIES DIRECTORY + CCTV LINK
+       ========================================================================== */
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: clamp(12px, 2.5vw, 16px);
+      width: 100%;
+    }
+
+    .contact-card {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: clamp(12px, 2.5vw, 16px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-elevation-1);
+      transition: var(--transition-smooth);
+      min-width: 0;
+    }
+
+    .contact-card:hover {
+      box-shadow: var(--shadow-elevation-2);
+      transform: translateY(-2px);
+    }
+
+    .contact-icon-circle {
+      width: clamp(40px, 6vw, 46px);
+      height: clamp(40px, 6vw, 46px);
+      border-radius: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-elevation-1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary-text);
+      flex-shrink: 0;
+    }
+
+    .contact-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .contact-name {
+      font-weight: 700;
+      font-size: clamp(13px, 2.6vw, 14px);
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .contact-role {
+      font-size: clamp(11px, 2.2vw, 11.5px);
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* CCTV Card */
+    .cctv-banner {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      color: #FFFFFF;
+      border-radius: clamp(16px, 3vw, var(--radius-card));
+      padding: clamp(16px, 3.5vw, 24px);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: clamp(16px, 3vw, 24px);
+      box-shadow: var(--shadow-elevation-3);
+      width: 100%;
+    }
+
+    .cctv-info {
+      flex: 1 1 260px;
+    }
+
+    .cctv-info h3 {
+      font-size: clamp(15px, 3.5vw, 18px);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .cctv-cameras-tag {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34D399;
+      font-size: 11.5px;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* ==========================================================================
+       MODALS
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: clamp(10px, 3vw, 16px);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background: var(--bg-surface);
+      border-radius: clamp(18px, 4vw, var(--radius-card));
+      max-width: 480px;
+      width: 100%;
+      box-shadow: var(--shadow-elevation-4);
+      padding: clamp(16px, 3.5vw, 24px);
+      position: relative;
+      transform: translateY(16px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--color-border);
+    }
+
+    .modal-backdrop.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      gap: 10px;
+    }
+
+    .modal-close-btn {
+      background: var(--bg-inset);
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+      flex-shrink: 0;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--color-border);
+      color: var(--text-main);
+    }
+
+    /* QR Code Display */
+    .qr-container {
+      background: #FFFFFF;
+      border: 2px dashed #CBD5E1;
+      border-radius: 16px;
+      padding: clamp(12px, 3vw, 18px);
+      text-align: center;
+      margin: 14px 0;
+      box-shadow: var(--shadow-elevation-1);
+    }
+
+    .qr-code-img {
+      width: clamp(140px, 35vw, 180px);
+      height: clamp(140px, 35vw, 180px);
+      margin: 0 auto 10px auto;
+      display: block;
+      background: #FAFAFA;
+      padding: 6px;
+      border-radius: 8px;
+    }
+
+    .upi-id-pill {
+      background: #F1F5F9;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(11.5px, 2.5vw, 13px);
+      font-weight: 700;
+      color: #0F172A;
+      display: inline-block;
+      margin-top: 4px;
+      word-break: break-all;
+    }
+
+    /* Receipt Box */
+    .receipt-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: clamp(12px, 3vw, 18px);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      width: 100%;
+    }
+
+    .receipt-header {
+      text-align: center;
+      border-bottom: 2px dashed var(--color-border);
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: clamp(11.5px, 2.4vw, 13px);
+      gap: 8px;
+    }
+
+    .receipt-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .receipt-val {
+      font-weight: 700;
+      color: var(--text-main);
+      text-align: right;
+    }
+
+    .receipt-total {
+      border-top: 2px solid var(--color-border);
+      padding-top: 10px;
+      margin-top: 10px;
+      font-size: clamp(14px, 3vw, 16px);
+      font-weight: 800;
+    }
+
+    /* ==========================================================================
+       FOOTER SECTION (Attribution to Jaytrivedi)
+       ========================================================================== */
+    .app-footer {
+      margin-top: 40px;
+      background: var(--bg-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-elevation-2);
+      padding: 20px 24px;
+      width: 100%;
+      transition: var(--transition-smooth);
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-logo-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #A8EDD7 0%, #76D7B9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #064E3B;
+      box-shadow: var(--shadow-elevation-1);
+      flex-shrink: 0;
+    }
+
+    .footer-title {
+      font-weight: 800;
+      font-size: 14.5px;
+      color: var(--text-main);
+    }
+
+    .footer-subtitle {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .footer-credit {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .credit-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: var(--bg-surface-alt);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: var(--shadow-elevation-1);
+      transition: var(--transition-smooth);
+    }
+
+    .credit-badge:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-focus-ring);
+      transform: translateY(-1px);
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--text-light);
+    }
+
+    /* Toast Notification */
+    .toast-pill {
+      position: fixed;
+      bottom: clamp(16px, 4vw, 24px);
+      right: clamp(12px, 3vw, 24px);
+      left: clamp(12px, 3vw, auto);
+      background: #1E293B;
+      color: #FFFFFF;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-elevation-4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(12px, 2.5vw, 13px);
+      font-weight: 600;
+      z-index: 2000;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 90vw;
+    }
+
+    .toast-pill.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ==========================================================================
+       MEDIA QUERIES - GRANULAR DEVICE RESPONSIVENESS
+       ========================================================================== */
+    @media (max-width: 960px) {
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .wa-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 12px;
+      }
+
+      .top-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .theme-toggle-btn {
+        flex: 1 1 auto;
+        justify-content: center;
+      }
+
+      .lang-switcher {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .lang-btn {
+        text-align: center;
+        padding: 6px 2px;
+      }
+
+      .cycle-toggle {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cycle-btn {
+        text-align: center;
+        padding: 7px 4px;
+      }
+
+      .sec-badge {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .alert-banner {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 16px;
+      }
+
+      .alert-banner button {
+        width: 100%;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .section-header > div:last-child {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .section-header > div:last-child .btn {
+        width: 100%;
+      }
+
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-recessed {
+        max-width: 100%;
+      }
+
+      /* Mobile Transformation for Flats Table */
+      .responsive-flats-table thead {
+        display: none;
+      }
+
+      .responsive-flats-table, 
+      .responsive-flats-table tbody, 
+      .responsive-flats-table tr, 
+      .responsive-flats-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .responsive-flats-table {
+        border: none;
+        background: transparent;
+      }
+
+      .responsive-flats-table tr {
+        background: var(--bg-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+        box-shadow: var(--shadow-elevation-1);
+        margin-bottom: 12px;
+        padding: 12px 14px;
+      }
+
+      .responsive-flats-table td {
+        padding: 4px 0;
+        border: none;
+      }
+
+      .mobile-flat-top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+
+      .mobile-flat-due-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 0;
+        border-top: 1px dashed var(--color-border-subtle);
+        margin-top: 6px;
+      }
+
+      .mobile-flat-actions-row {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--color-border-subtle);
+      }
+
+      .mobile-flat-actions-row .btn {
+        flex: 1;
+      }
+
+      .mobile-flat-actions-row .btn-icon {
+        flex: 0 0 36px;
+      }
+
+      /* Responsive Parking Table */
+      .responsive-parking-table thead {
+        display: none;
+      }
+      .responsive-parking-table,
+      .responsive-parking-table tbody,
+      .responsive-parking-table tr,
+      .responsive-parking-table td {
+        display: block;
+        width: 100%;
+      }
+      .responsive-parking-table tr {
+        background: var(--bg-surface-alt);
+        border: 1px solid var(--color-border);
+        border-radius: 14px;
+        margin-bottom: 10px;
+        padding: 12px;
+      }
+      .responsive-parking-table td {
+        padding: 3px 0;
+        border: none;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .footer-right {
+        align-items: flex-start;
+      }
+
+      /* Modals Full Width */
+      .modal-card {
+        padding: 16px;
+        border-radius: 18px;
+      }
+
+      .modal-card .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .metrics-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .metric-card {
+        padding: 12px 10px;
+        border-radius: 14px;
+      }
+
+      .metric-value {
+        font-size: 19px;
+      }
+
+      .metric-label {
+        font-size: 11px;
+      }
+
+      .metric-sub {
+        display: none;
+      }
+
+      .phone-mockup {
+        border-radius: 24px;
+        padding: 6px;
+      }
+    }
+
+    /* Print styling */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .printable-area, .printable-area * {
+        visibility: visible;
+      }
+      .printable-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ======================================================================
+         TOP HEADER & BRAND SECTION
+         ====================================================================== -->
+    <header class="top-header">
+      <div class="brand-section">
+        <div class="brand-avatar">
+          <i data-lucide="building-2"></i>
+        </div>
+        <div class="brand-text">
+          <h1 id="app-society-name">
+            Gokul Heights CHS
+            <span class="chip chip-paid" style="font-size: 10.5px;">48 Flats</span>
+          </h1>
+          <p id="app-tagline">Secretary Console • Zero-Resident-App Setup (WhatsApp Native)</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Theme Toggle Button (Light/Dark Mode) -->
+        <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+          <i data-lucide="moon" id="theme-icon" style="width:15px; height:15px;"></i>
+          <span id="theme-text">Dark Mode</span>
+        </button>
+
+        <!-- Multilingual Switcher (Hindi/Gujarati/Marathi/English) -->
+        <div class="lang-switcher" title="Select UI Language">
+          <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+          <button class="lang-btn" onclick="setLanguage('hi')">हिन्दी</button>
+          <button class="lang-btn" onclick="setLanguage('gu')">ગુજરાતી</button>
+          <button class="lang-btn" onclick="setLanguage('mr')">मराठी</button>
+        </div>
+
+        <!-- Monthly vs Quarterly Toggle -->
+        <div class="cycle-toggle">
+          <button class="cycle-btn active" id="cycle-monthly-btn" onclick="setCycle('monthly')">
+            <span data-i18n="monthly">Monthly</span> (₹2,500)
+          </button>
+          <button class="cycle-btn" id="cycle-quarterly-btn" onclick="setCycle('quarterly')">
+            <span data-i18n="quarterly">Quarterly</span> (₹7,500)
+          </button>
+        </div>
+
+        <!-- Secretary Status Badge -->
+        <div class="sec-badge">
+          <span class="sec-status-dot"></span>
+          <span>Jayesh Patel (Sec.)</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Strategy Alert Banner (Context: The lazy switch & why it works) -->
+    <div class="alert-banner success">
+      <div class="alert-banner-left">
+        <i data-lucide="check-circle-2" style="color:#059669; width:18px; height:18px;"></i>
+        <span><strong data-i18n="zero_install_title">No App Needed for Residents:</strong> <span data-i18n="zero_install_sub">You control the dashboard here. Flat owners get auto QR codes & instant PDF receipts on WhatsApp.</span></span>
+      </div>
+      <button class="btn btn-sm btn-secondary" onclick="openBroadcastModal()">
+        <i data-lucide="send" style="width:14px; height:14px;"></i> <span data-i18n="quick_broadcast">Quick Broadcast</span>
+      </button>
+    </div>
+
+    <!-- ======================================================================
+         KEY METRICS OVERVIEW (Styleguide Elevation Cards)
+         ====================================================================== -->
+    <div class="metrics-grid">
+      <!-- Collection Progress -->
+      <div class="metric-card">
+        <div class="metric-top">
+          <div class="metric-icon-wrap" style="color:#059669;">
+            <i data-lucide="banknote" style="width:20px; height:20px;"></i>
+          </div>
+          <span class="metric-badge chip-paid" id="metric-collected-pct">87.5% Paid</span>
+        </div>
+        <div class="metric-value" id="metric-collected-amt">₹1,05,000</div>
+        <div class="metric-label" data-i18n="october_collections">Current Collections</div>
+        <div class="metric-sub" id="metric-collection-sub">42 of 48 Flats cleared</div>
+      </div>
+
+      <!-- Pending / Overdue Dues -->
+      <div class="metric-card">
+        <div class="metric-top">
+          <div class="metric-icon-wrap" style="color:#DC2626;">
+            <i data-lucide="alert-circle" style="width:20px; height:20px;"></i>
+          </div>
+          <span class="metric-badge chip-overdue" id="metric-pending-count">6 Flats Due</span>
+        </div>
+        <div class="metric-value" id="metric-pending-amt">₹15,000</div>
+        <div class="metric-label" data-i18n="overdue_amount">Overdue Dues</div>
+        <div class="metric-sub">
+          <a href="javascript:void(0)" onclick="sendBulkOverdueReminders()" style="color:#0284C7; font-weight:700; text-decoration:none;">
+            <span data-i18n="send_wa_all">⚡ Send WA to all 6</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Society Reserve Balance -->
+      <div class="metric-card">
+        <div class="metric-top">
+          <div class="metric-icon-wrap" style="color:#2563EB;">
+            <i data-lucide="landmark" style="width:20px; height:20px;"></i>
+          </div>
+          <span class="metric-badge chip-neutral">HDFC Bank</span>
+        </div>
+        <div class="metric-value">₹4,82,500</div>
+        <div class="metric-label" data-i18n="society_balance">Total Bank Balance</div>
+        <div class="metric-sub">₹0 cash (All Direct UPI)</div>
+      </div>
+
+      <!-- Open Grievances -->
+      <div class="metric-card">
+        <div class="metric-top">
+          <div class="metric-icon-wrap" style="color:#D97706;">
+            <i data-lucide="wrench" style="width:20px; height:20px;"></i>
+          </div>
+          <span class="metric-badge chip-pending" id="metric-grievance-badge">2 Open</span>
+        </div>
+        <div class="metric-value" id="metric-grievance-val">3 Issues</div>
+        <div class="metric-label" data-i18n="active_grievances">Active Issues</div>
+        <div class="metric-sub">Lift tech arriving at 4 PM</div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         TACTILE SEGMENTED TABS (Segmented Pill Bar)
+         ====================================================================== -->
+    <nav class="nav-tabs-wrapper">
+      <button class="nav-tab-item active" onclick="switchTab('money')">
+        <i data-lucide="receipt" style="width:16px; height:16px;"></i>
+        <span data-i18n="tab_maintenance">Maintenance & UPI</span>
+        <span class="tab-badge" id="tab-pending-badge">6 Pending</span>
+      </button>
+
+      <button class="nav-tab-item" onclick="switchTab('expenses')">
+        <i data-lucide="pie-chart" style="width:16px; height:16px;"></i>
+        <span data-i18n="tab_expenses">Expense Tracker</span>
+        <span class="tab-badge">Navratri / Repairs</span>
+      </button>
+
+      <button class="nav-tab-item" onclick="switchTab('whatsapp')">
+        <i data-lucide="message-square" style="width:16px; height:16px;"></i>
+        <span data-i18n="tab_broadcast">WhatsApp Broadcast</span>
+      </button>
+
+      <button class="nav-tab-item" onclick="switchTab('grievances')">
+        <i data-lucide="clipboard-list" style="width:16px; height:16px;"></i>
+        <span data-i18n="tab_grievances">Grievance Board</span>
+        <span class="tab-badge">3 Total</span>
+      </button>
+
+      <button class="nav-tab-item" onclick="switchTab('notices')">
+        <i data-lucide="bell" style="width:16px; height:16px;"></i>
+        <span data-i18n="tab_notices">Notice Board</span>
+      </button>
+
+      <button class="nav-tab-item" onclick="switchTab('contacts')">
+        <i data-lucide="phone-call" style="width:16px; height:16px;"></i>
+        <span data-i18n="tab_directory">Directory & CCTV</span>
+      </button>
+
+      <button class="nav-tab-item" onclick="switchTab('parking')">
+        <i data-lucide="car" style="width:16px; height:16px;"></i>
+        <span data-i18n="tab_parking">Parking & Visitors</span>
+      </button>
+    </nav>
+
+    <!-- ======================================================================
+         TAB 1: MAINTENANCE & UPI (THE CORE SECRETARY VALUE)
+         ====================================================================== -->
+    <section id="tab-content-money" class="section-card">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <i data-lucide="badge-dollar-sign" style="color:#059669;"></i>
+            <span data-i18n="flats_maintenance_title">Flat Maintenance Dues & Instant E-Receipts</span>
+          </h2>
+          <p class="section-subtitle" data-i18n="flats_maintenance_sub">
+            Track paid/pending status, generate dynamic UPI QR codes, and send 1-click reminders directly to WhatsApp.
+          </p>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn btn-sm btn-whatsapp" onclick="sendBulkOverdueReminders()">
+            <i data-lucide="send" style="width:14px; height:14px;"></i>
+            <span data-i18n="remind_all_overdue">Remind All Overdue (WhatsApp)</span>
+          </button>
+          <button class="btn btn-sm btn-secondary" onclick="exportMaintenanceReport()">
+            <i data-lucide="download" style="width:14px; height:14px;"></i>
+            <span data-i18n="download_excel">Export Summary</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Bar with Recessed Search and Status Chips -->
+      <div class="filter-bar">
+        <div class="search-recessed">
+          <input type="text" id="flat-search-input" class="search-input" placeholder="Search flat, name, or phone..." oninput="filterFlats()">
+          <i data-lucide="search" class="search-icon" style="width:16px; height:16px;"></i>
+        </div>
+
+        <div class="filter-chips">
+          <button class="filter-chip-btn active" onclick="setFlatFilter('all', this)" data-i18n="all_flats">All (48)</button>
+          <button class="filter-chip-btn" onclick="setFlatFilter('pending', this)" data-i18n="filter_pending">Pending / Overdue (6)</button>
+          <button class="filter-chip-btn" onclick="setFlatFilter('paid', this)" data-i18n="filter_paid">Paid (42)</button>
+          <button class="filter-chip-btn" onclick="setFlatFilter('wing-a', this)">Wing A</button>
+          <button class="filter-chip-btn" onclick="setFlatFilter('wing-b', this)">Wing B</button>
+        </div>
+      </div>
+
+      <!-- Flats Data Table (Dual Responsive: Desktop Table + Mobile Card Stack) -->
+      <div class="table-responsive responsive-flats-table">
+        <table id="flats-table">
+          <thead>
+            <tr>
+              <th data-i18n="col_flat">Flat & Resident</th>
+              <th data-i18n="col_wing">Wing</th>
+              <th data-i18n="col_status">Status</th>
+              <th data-i18n="col_due">Amount Due</th>
+              <th data-i18n="col_last_payment">Payment Note / History</th>
+              <th style="text-align: right;" data-i18n="col_actions">Secretary Actions</th>
+            </tr>
+          </thead>
+          <tbody id="flats-tbody">
+            <!-- Dynamically populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 2: EXPENSE TRACKING (NAVRATRI, REPAIRS, SECURITY)
+         ====================================================================== -->
+    <section id="tab-content-expenses" class="section-card" style="display:none;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <i data-lucide="wallet" style="color:#2563EB;"></i>
+            <span data-i18n="expense_tracking_title">Society Expense Tracking</span>
+          </h2>
+          <p class="section-subtitle" data-i18n="expense_tracking_sub">
+            Amount collected vs. spent in real time for festivals, ongoing repairs, and utility vendor payrolls.
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-primary" onclick="openNewExpenseModal()">
+            <i data-lucide="plus" style="width:14px; height:14px;"></i>
+            <span data-i18n="add_expense_entry">Add Expense / Fund</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="expenses-grid" id="expenses-container">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 3: WHATSAPP BROADCAST (NO APP NEEDED FOR RESIDENTS)
+         ====================================================================== -->
+    <section id="tab-content-whatsapp" class="section-card" style="display:none;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <i data-lucide="send" style="color:#25D366;"></i>
+            <span data-i18n="wa_broadcast_title">Instant WhatsApp Broadcast</span>
+          </h2>
+          <p class="section-subtitle" data-i18n="wa_broadcast_sub">
+            Reach every flat on WhatsApp. No app download needed for residents.
+          </p>
+        </div>
+      </div>
+
+      <div class="wa-grid">
+        <!-- Message Composer Form -->
+        <div class="wa-form-card">
+          <div class="form-group">
+            <label class="form-label" data-i18n="select_audience">Target Audience</label>
+            <select id="wa-audience" class="form-select" onchange="updateWaPreview()">
+              <option value="all">📢 All Flats (48 Flats)</option>
+              <option value="overdue">⚠️ Only Flats with Overdue Dues (6 Flats)</option>
+              <option value="wing-a">🏢 Wing A Flats Only (24 Flats)</option>
+              <option value="wing-b">🏢 Wing B Flats Only (24 Flats)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="template_presets">Quick Template Preset</label>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;">
+              <button class="btn btn-sm btn-secondary" onclick="setWaTemplate('maintenance')">💰 Maintenance Due</button>
+              <button class="btn btn-sm btn-secondary" onclick="setWaTemplate('tank')">🚰 Water Tank Cleaning</button>
+              <button class="btn btn-sm btn-secondary" onclick="setWaTemplate('agm')">🗳️ Society AGM Meeting</button>
+              <button class="btn btn-sm btn-secondary" onclick="setWaTemplate('fest')">🪔 Navratri Celebration</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="message_body">WhatsApp Message Body</label>
+            <textarea id="wa-body" class="form-textarea" oninput="updateWaPreview()">Dear Resident,
+Society Maintenance for October 2026 of ₹2,500 is due. 
+
+Please scan the UPI QR attached or pay to:
+UPI ID: gokulheights@upi
+Beneficiary: Gokul Heights CHS
+
+Your instant PDF receipt will be sent automatically once paid.
+- Jayesh Patel, Hon. Secretary</textarea>
+          </div>
+
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button class="btn btn-whatsapp" style="width:100%;" onclick="sendSimulatedBroadcast()">
+              <i data-lucide="send" style="width:16px; height:16px;"></i>
+              <span data-i18n="broadcast_btn">Broadcast to WhatsApp</span>
+            </button>
+            <span style="font-size:11.5px; color:var(--text-muted); text-align:center; width:100%;">Simulates native WA push to 48 registered numbers</span>
+          </div>
+        </div>
+
+        <!-- Phone Mockup Preview -->
+        <div>
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              <div class="phone-header">
+                <div class="phone-avatar">GH</div>
+                <div>
+                  <div class="phone-name">Gokul Heights CHS</div>
+                  <div class="phone-sub">Official Society Broadcast</div>
+                </div>
+              </div>
+              <div class="phone-chat">
+                <div class="chat-bubble">
+                  <div id="wa-phone-text" style="white-space: pre-line;">
+                    Dear Resident,
+                    Society Maintenance for October 2026 of ₹2,500 is due.
+                  </div>
+                  <!-- Attached Dynamic QR in WA -->
+                  <div class="chat-qr-preview">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=upi://pay?pa=gokulheights@upi&pn=GokulHeightsCHS&am=2500" alt="UPI QR" style="width:84px; height:84px;">
+                    <span style="font-size:9.5px; font-weight:700; color:#065F46; margin-top:4px;">Auto Dynamic UPI QR</span>
+                  </div>
+                  <div class="chat-time">10:42 AM • Delivered</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 4: GRIEVANCE BOARD (PHOTO + LOCATION + STATUS)
+         ====================================================================== -->
+    <section id="tab-content-grievances" class="section-card" style="display:none;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <i data-lucide="alert-triangle" style="color:#D97706;"></i>
+            <span data-i18n="grievances_title">Society Grievance & Maintenance Board</span>
+          </h2>
+          <p class="section-subtitle" data-i18n="grievances_sub">
+            Photo verification, exact location tag, and live resolution status [Open / In-Progress / Done].
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-primary" onclick="openNewGrievanceModal()">
+            <i data-lucide="plus" style="width:14px; height:14px;"></i>
+            <span data-i18n="raise_complaint">Log New Issue</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="cards-grid" id="grievances-container">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 5: DIGITAL NOTICE BOARD
+         ====================================================================== -->
+    <section id="tab-content-notices" class="section-card" style="display:none;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <i data-lucide="megaphone" style="color:#8B5CF6;"></i>
+            <span data-i18n="notice_board_title">Official Society Notice Board</span>
+          </h2>
+          <p class="section-subtitle" data-i18n="notice_board_sub">
+            Meeting schedules, elections, water tank cleaning, and repair notifications.
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-secondary" onclick="openNewNoticeModal()">
+            <i data-lucide="plus" style="width:14px; height:14px;"></i>
+            <span data-i18n="post_new_notice">Post Notice</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="notices-container">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 6: CONTACTS & UTILITIES DIRECTORY + CCTV LINK
+         ====================================================================== -->
+    <section id="tab-content-contacts" class="section-card" style="display:none;">
+      <!-- CCTV Live Portal Card -->
+      <div class="cctv-banner">
+        <div class="cctv-info">
+          <h3>
+            <i data-lucide="video"></i>
+            <span data-i18n="cctv_title">Society Security CCTV Portal</span>
+            <span class="cctv-cameras-tag">● 8 Cameras Live</span>
+          </h3>
+          <p style="font-size:12.5px; opacity:0.85; margin-top:4px;">
+            Gate 1, Lobby Wing A, Lobby Wing B, Basement Parking, Terrace & Lift cameras.
+          </p>
+        </div>
+        <button class="btn btn-primary" onclick="launchCctvPortal()">
+          <i data-lucide="external-link" style="width:16px; height:16px;"></i>
+          <span data-i18n="launch_cctv">Open CCTV Live Stream</span>
+        </button>
+      </div>
+
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <i data-lucide="contact" style="color:#0284C7;"></i>
+            <span data-i18n="directory_title">Emergency & Daily Utility Directory</span>
+          </h2>
+          <p class="section-subtitle" data-i18n="directory_sub">
+            Watchman, plumber, electrician, lift tech & car wash - 1-tap call & WhatsApp.
+          </p>
+        </div>
+      </div>
+
+      <div class="contacts-grid" id="contacts-container">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         TAB 7: PARKING SLOT MAPPING & VISITOR LOG
+         ====================================================================== -->
+    <section id="tab-content-parking" class="section-card" style="display:none;">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <i data-lucide="car" style="color:#4F46E5;"></i>
+            <span data-i18n="parking_title">Parking Slot Mapping & Active Visitor Log</span>
+          </h2>
+          <p class="section-subtitle" data-i18n="parking_sub">
+            Slot mapping with vehicle numbers and quick visitor log for security.
+          </p>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-secondary" onclick="logVisitorModal()">
+            <i data-lucide="user-plus" style="width:14px; height:14px;"></i>
+            <span data-i18n="log_visitor">Quick Visitor Log</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive responsive-parking-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Slot No.</th>
+              <th>Flat</th>
+              <th>Resident Name</th>
+              <th>Vehicle Number</th>
+              <th>Vehicle Type</th>
+              <th>Visitor Status</th>
+            </tr>
+          </thead>
+          <tbody id="parking-tbody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         FOOTER ATTRIBUTION - JAYTRIVEDI
+         ====================================================================== -->
+    <footer class="app-footer">
+      <div class="footer-container">
+        <div class="footer-left">
+          <div class="footer-logo-badge">
+            <i data-lucide="building-2" style="width:20px; height:20px;"></i>
+          </div>
+          <div>
+            <div class="footer-title">SocietyEase CHS Dashboard</div>
+            <div class="footer-subtitle">Zero-Resident-App Housing Society Operating System • ₹60/flat/year</div>
+          </div>
+        </div>
+        <div class="footer-right">
+          <div class="footer-credit">
+            <span>Built & Designed with ❤️ by</span>
+            <a href="https://github.com/Parth7487" target="_blank" rel="noopener noreferrer" class="credit-badge">
+              <i data-lucide="sparkles" style="width:13px; height:13px; color:#86DFC5;"></i>
+              <strong>Jaytrivedi</strong>
+            </a>
+          </div>
+          <div class="footer-copy">© 2026 Gokul Heights Co-op Housing Society • All rights reserved</div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ========================================================================
+       MODAL 1: DYNAMIC UPI QR & PAYMENT COLLECTOR
+       ======================================================================== -->
+  <div class="modal-backdrop" id="qr-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="min-width:0;">
+          <h3 style="font-size:16px; font-weight:800;" id="qr-modal-title">UPI QR Code</h3>
+          <p style="font-size:12px; color:var(--text-muted);" id="qr-modal-sub">Flat 403 - Ashish Mehta</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('qr-modal')">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+
+      <div class="qr-container">
+        <div style="font-size:11.5px; font-weight:700; color:#64748B; margin-bottom:8px;">
+          SCAN WITH ANY UPI APP (GPAY / PHONEPE / PAYTM)
+        </div>
+        <img id="qr-code-image" class="qr-code-img" src="" alt="Dynamic UPI QR">
+        <div style="font-size:clamp(17px, 4vw, 20px); font-weight:800; color:#0F172A;" id="qr-amount-display">₹2,500</div>
+        <div class="upi-id-pill">gokulheights@upi</div>
+      </div>
+
+      <div style="background:var(--bg-surface-alt); border-radius:12px; padding:12px; margin-bottom:14px; font-size:12px; color:var(--text-muted); border:1px solid var(--color-border);">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px; gap:8px;">
+          <span>Resident Phone:</span>
+          <strong id="qr-modal-phone" style="color:var(--text-main);">+91 98201 54321</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; gap:8px;">
+          <span>Direct UPI Intent Link:</span>
+          <a href="javascript:void(0)" onclick="copyUpiLink()" style="color:#0284C7; font-weight:700;">Copy Link</a>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-direction:column;">
+        <button class="btn btn-whatsapp" id="qr-send-wa-btn" onclick="sendQrOnWhatsApp()">
+          <i data-lucide="send" style="width:16px; height:16px;"></i>
+          Send QR & Payment Link via WhatsApp
+        </button>
+        <button class="btn btn-primary" id="qr-mark-paid-btn" onclick="markCurrentFlatPaid()">
+          <i data-lucide="check" style="width:16px; height:16px;"></i>
+          Mark as Paid & Generate Instant E-Receipt
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: INSTANT E-RECEIPT (PRINTABLE PDF FORMAT)
+       ======================================================================== -->
+  <div class="modal-backdrop" id="receipt-modal">
+    <div class="modal-card printable-area">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size:16px; font-weight:800;">Official Maintenance E-Receipt</h3>
+          <p style="font-size:12px; color:var(--text-muted);">Gokul Heights Co-op Housing Society Ltd.</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('receipt-modal')">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+
+      <div class="receipt-box" id="printable-receipt">
+        <div class="receipt-header">
+          <h4 style="font-size:15px; font-weight:800; color:#064E3B;">GOKUL HEIGHTS CHS LTD.</h4>
+          <p style="font-size:10.5px; color:#64748B;">Reg No. BOM/HSG/10492/2018 • S.V. Road, Mumbai - 400056</p>
+          <div class="chip chip-paid" style="margin-top:8px;">PAYMENT RECEIVED (VERIFIED)</div>
+        </div>
+
+        <div class="receipt-row">
+          <span class="receipt-label">Receipt Number:</span>
+          <span class="receipt-val" id="receipt-no">GH-2026-1042</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Payment Date:</span>
+          <span class="receipt-val" id="receipt-date">15-Oct-2026</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Flat & Resident:</span>
+          <span class="receipt-val" id="receipt-flat">Unit 403 (Wing B) - Ashish Mehta</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Billing Period:</span>
+          <span class="receipt-val" id="receipt-period">October 2026</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">Payment Mode:</span>
+          <span class="receipt-val">UPI (Ref #982148201)</span>
+        </div>
+
+        <div class="receipt-total receipt-row">
+          <span>Total Maintenance Paid:</span>
+          <span style="color:#064E3B;" id="receipt-amount">₹2,500</span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap;">
+        <button class="btn btn-secondary" style="flex:1;" onclick="window.print()">
+          <i data-lucide="printer" style="width:16px; height:16px;"></i>
+          Print / PDF
+        </button>
+        <button class="btn btn-whatsapp" style="flex:1;" onclick="shareReceiptWhatsApp()">
+          <i data-lucide="send" style="width:16px; height:16px;"></i>
+          Share on WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 3: FLAT PAYMENT HISTORY & AUDIT LOG
+       ======================================================================== -->
+  <div class="modal-backdrop" id="history-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div style="min-width:0;">
+          <h3 style="font-size:16px; font-weight:800;" id="history-flat-title">Payment Audit History</h3>
+          <p style="font-size:11.5px; color:var(--text-muted);" id="history-flat-subtitle">Clear ledger for secretary to show during AGM</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('history-modal')">
+          <i data-lucide="x" style="width:16px; height:16px;"></i>
+        </button>
+      </div>
+
+      <div id="history-content-list" style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
+        <!-- Populated dynamically -->
+      </div>
+
+      <button class="btn btn-secondary" style="width:100%;" onclick="closeModal('history-modal')">
+        Close History
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Pill -->
+  <div class="toast-pill" id="app-toast">
+    <i data-lucide="check-circle" style="color:#34D399; width:18px; height:18px; flex-shrink:0;"></i>
+    <span id="toast-text">Action completed successfully</span>
+  </div>
+
+  <!-- ========================================================================
+       JAVASCRIPT APPLICATION LOGIC
+       ======================================================================== -->
+  <script>
+    /* ==========================================================================
+       DATA MODELS & STATE
+       ========================================================================== */
+    let currentTheme = localStorage.getItem('theme') || 'light';
+    let currentLanguage = 'en';
+    let currentCycle = 'monthly'; // 'monthly' | 'quarterly'
+    let currentFlatIdForModal = null;
+
+    // Apply Theme on load
+    function initTheme() {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      updateThemeButtonUI();
+    }
+
+    function toggleTheme() {
+      currentTheme = (currentTheme === 'light') ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      localStorage.setItem('theme', currentTheme);
+      updateThemeButtonUI();
+      showToast(`Switched to ${currentTheme.toUpperCase()} mode`);
+    }
+
+    function updateThemeButtonUI() {
+      const btn = document.getElementById('theme-toggle-btn');
+      if (!btn) return;
+      if (currentTheme === 'dark') {
+        btn.innerHTML = `<i data-lucide="sun" style="width:15px; height:15px; color:#F59E0B;"></i> <span>Light Mode</span>`;
+      } else {
+        btn.innerHTML = `<i data-lucide="moon" style="width:15px; height:15px; color:#64748B;"></i> <span>Dark Mode</span>`;
+      }
+      lucide.createIcons();
+    }
+
+    // Multilingual Translations Dictionary
+    const translations = {
+      en: {
+        monthly: 'Monthly',
+        quarterly: 'Quarterly',
+        zero_install_title: 'No App Needed for Residents:',
+        zero_install_sub: 'You control the dashboard here. Flat owners get auto QR codes & instant PDF receipts on WhatsApp.',
+        quick_broadcast: 'Quick Broadcast',
+        october_collections: 'Current Month Collections',
+        overdue_amount: 'Overdue Dues',
+        send_wa_all: '⚡ Send WA to all 6',
+        society_balance: 'Total Bank Balance',
+        active_grievances: 'Active Grievances',
+        tab_maintenance: 'Maintenance & UPI',
+        tab_expenses: 'Expense Tracker',
+        tab_broadcast: 'WhatsApp Broadcast',
+        tab_grievances: 'Grievance Board',
+        tab_notices: 'Notice Board',
+        tab_directory: 'Directory & CCTV',
+        tab_parking: 'Parking & Visitors',
+        flats_maintenance_title: 'Flat Maintenance Dues & Instant E-Receipts',
+        flats_maintenance_sub: 'Track paid/pending status, generate dynamic UPI QR codes, and send 1-click reminders directly to WhatsApp.',
+        remind_all_overdue: 'Remind Overdue (WhatsApp)',
+        download_excel: 'Export Summary',
+        all_flats: 'All (48)',
+        filter_pending: 'Pending / Due (6)',
+        filter_paid: 'Paid (42)',
+        col_flat: 'Flat & Resident',
+        col_wing: 'Wing',
+        col_status: 'Status',
+        col_due: 'Amount Due',
+        col_last_payment: 'Payment Note / History',
+        col_actions: 'Secretary Actions',
+        expense_tracking_title: 'Society Expense Tracking',
+        expense_tracking_sub: 'Amount collected vs. spent in real time for festivals, ongoing repairs, and utility vendor payrolls.',
+        add_expense_entry: 'Add Expense / Fund',
+        wa_broadcast_title: 'Instant WhatsApp Broadcast',
+        wa_broadcast_sub: 'Reach every flat on WhatsApp. No app download needed for residents.',
+        select_audience: 'Target Audience',
+        template_presets: 'Quick Template Preset',
+        message_body: 'WhatsApp Message Body',
+        broadcast_btn: 'Broadcast to WhatsApp',
+        grievances_title: 'Society Grievance & Maintenance Board',
+        grievances_sub: 'Photo verification, exact location tag, and live resolution status [Open / In-Progress / Done].',
+        raise_complaint: 'Log New Issue',
+        notice_board_title: 'Official Society Notice Board',
+        notice_board_sub: 'Meeting schedules, elections, water tank cleaning, and repair notifications.',
+        post_new_notice: 'Post Notice',
+        cctv_title: 'Society Security CCTV Portal',
+        launch_cctv: 'Open CCTV Live Stream',
+        directory_title: 'Emergency & Daily Utility Directory',
+        directory_sub: 'Watchman, plumber, electrician, lift tech & car wash - 1-tap call & WhatsApp.',
+        parking_title: 'Parking Slot Mapping & Active Visitor Log',
+        parking_sub: 'Slot mapping with vehicle numbers and quick visitor log for security.',
+        log_visitor: 'Quick Visitor Log'
+      },
+      hi: {
+        monthly: 'मासिक',
+        quarterly: 'त्रैमासिक',
+        zero_install_title: 'रहवासियों के लिए किसी ऐप की जरूरत नहीं:',
+        zero_install_sub: 'आप यहाँ से सब संभालें। फ्लैट मालिकों को व्हाट्सएप पर ऑटो QR कोड और रसीद मिलती है।',
+        quick_broadcast: 'व्हाट्सएप सूचना',
+        october_collections: 'इस महीने की वसूली',
+        overdue_amount: 'बाकी मेंटेनेंस',
+        send_wa_all: '⚡ सभी 6 को व्हाट्सएप भेजें',
+        society_balance: 'सोसायटी बैंक बैलेंस',
+        active_grievances: 'सक्रिय शिकायतें',
+        tab_maintenance: 'मेंटेनेंस और UPI',
+        tab_expenses: 'खर्च ट्रैकर',
+        tab_broadcast: 'व्हाट्सएप ब्रॉडकास्ट',
+        tab_grievances: 'शिकायत बोर्ड',
+        tab_notices: 'सूचना पटल',
+        tab_directory: 'डायरेक्टरी और CCTV',
+        tab_parking: 'पार्किंग और आगंतुक',
+        flats_maintenance_title: 'फ्लैट मेंटेनेंस और ई-रसीदें',
+        flats_maintenance_sub: 'भुगतान स्थिति देखें, UPI QR कोड बनाएं और सीधे व्हाट्सएप पर रिमाइंडर भेजें।',
+        remind_all_overdue: 'बकाएदारों को व्हाट्सएप भेजें',
+        download_excel: 'रिपोर्ट डाउनलोड',
+        all_flats: 'सभी (48)',
+        filter_pending: 'बाकी (6)',
+        filter_paid: 'चुकाया गया (42)',
+        col_flat: 'फ्लैट और निवासी',
+        col_wing: 'विंग',
+        col_status: 'स्थिति',
+        col_due: 'बाकी राशि',
+        col_last_payment: 'भुगतान विवरण / इतिहास',
+        col_actions: 'सचिव कार्यवाही',
+        expense_tracking_title: 'सोसायटी खर्च का हिसाब',
+        expense_tracking_sub: 'त्योहार, मरम्मत और सुरक्षाकर्मियों के खर्च का लाइव रिकॉर्ड।',
+        add_expense_entry: 'नया खर्च दर्ज करें',
+        wa_broadcast_title: 'व्हाट्सएप ब्रॉडकास्ट',
+        wa_broadcast_sub: 'सभी निवासियों तक व्हाट्सएप से सीधा संदेश पहुंचाएं।',
+        select_audience: 'प्राप्तकर्ता चुनें',
+        template_presets: 'मैसेज टेम्पलेट',
+        message_body: 'संदेश सामग्री',
+        broadcast_btn: 'व्हाट्सएप पर भेजें',
+        grievances_title: 'शिकायत व समस्या निवारण',
+        grievances_sub: 'फोटो, स्थान और वास्तविक स्थिति [खुला / प्रगति पर / पूर्ण]।',
+        raise_complaint: 'नई समस्या दर्ज करें',
+        notice_board_title: 'सोसायटी सूचना पटल',
+        notice_board_sub: 'बैठक, चुनाव और रखरखाव की आधिकारिक घोषणाएं।',
+        post_new_notice: 'नई सूचना लगाएं',
+        cctv_title: 'सोसायटी CCTV कैमरा पोर्टल',
+        launch_cctv: 'लाइव CCTV कैमरा देखें',
+        directory_title: 'उपयोगी संपर्क डायरेक्टरी',
+        directory_sub: 'चौकीदार, प्लंबर, इलेक्ट्रीशियन - एक क्लिक पर कॉल करें।',
+        parking_title: 'पार्किंग स्लॉट और विजिटर रजिस्टर',
+        parking_sub: 'गाड़ी नंबर और आगंतुक लॉग।',
+        log_visitor: 'विजिटर एंट्री करें'
+      },
+      gu: {
+        monthly: 'માસિક',
+        quarterly: 'ત્રિમાસિક',
+        zero_install_title: 'રહીશો માટે એપ ઇન્સ્ટોલ કરવાની જરૂર નથી:',
+        zero_install_sub: 'તમે અહીંથી ડેશબોર્ડ ચલાવો. ફ્લેટ માલિકોને વ્હોટ્સએપ પર જ QR કોડ અને પહોંચ મળશે.',
+        quick_broadcast: 'વ્હોટ્સએપ મેસેજ',
+        october_collections: 'ચાલુ મહિનાની વસૂલાત',
+        overdue_amount: 'બાકી મેન્ટેનન્સ રકમ',
+        send_wa_all: '⚡ તમામ 6 ને વ્હોટ્સએપ કરો',
+        society_balance: 'સોસાયટી બેંક બેલેન્સ',
+        active_grievances: 'ચાલુ ફરિયાદો',
+        tab_maintenance: 'મેન્ટેનન્સ અને UPI',
+        tab_expenses: 'ખર્ચ હિસાબ',
+        tab_broadcast: 'વ્હોટ્સએપ બ્રોડકાસ્ટ',
+        tab_grievances: 'ફરિયાદ બોર્ડ',
+        tab_notices: 'નોટિસ બોર્ડ',
+        tab_directory: 'સંપર્ક અને CCTV',
+        tab_parking: 'પાર્કિંગ અને મુલાકાતી',
+        flats_maintenance_title: 'ફ્લેટ મેન્ટેનન્સ અને ઇ-પહોંચ',
+        flats_maintenance_sub: 'ચૂકવેલ કે બાકી હિસાબ જુઓ, UPI QR જનરેટ કરો અને એક ક્લિકમાં વ્હોટ્સએપ રિમાઇન્ડર મોકલો.',
+        remind_all_overdue: 'બાકીદારોને યાદ અપાવો',
+        download_excel: 'રિપોર્ટ ડાઉનલોડ',
+        all_flats: 'બધા (48)',
+        filter_pending: 'બાકી (6)',
+        filter_paid: 'ચૂકવેલ (42)',
+        col_flat: 'ફ્લેટ અને સભ્ય',
+        col_wing: 'વિંગ',
+        col_status: 'સ્થિતિ',
+        col_due: 'બાકી રકમ',
+        col_last_payment: 'વિગત / ઇતિહાસ',
+        col_actions: 'સેક્રેટરી એક્શન',
+        expense_tracking_title: 'સોસાયટી ખર્ચનો હિસાબ',
+        expense_tracking_sub: 'નવરાત્રિ, સમારકામ અને વોચમેન પગારનો વાસ્તવિક હિસાબ.',
+        add_expense_entry: 'નવો ખર્ચ ઉમેરો',
+        wa_broadcast_title: 'વ્હોટ્સએપ બ્રોડકાસ્ટ',
+        wa_broadcast_sub: 'દરેક સભ્યને કોઈ પણ એપ વગર સીધો વ્હોટ્સએપ સંદેશ.',
+        select_audience: 'સંદેશ કોને મોકલવો',
+        template_presets: 'ટેમ્પલેટ પસંદ કરો',
+        message_body: 'સંદેશ લખો',
+        broadcast_btn: 'વ્હોટ્સએપ પર મોકલો',
+        grievances_title: 'સોસાયટી ફરિયાદ નિવારણ',
+        grievances_sub: 'ફોટો અને સ્થાન સાથેની ફરિયાદો [ચાલુ / પ્રગતિમાં / ઉકેલાયેલ].',
+        raise_complaint: 'નવી ફરિયાદ નોંધો',
+        notice_board_title: 'સોસાયટી નોટિસ બોર્ડ',
+        notice_board_sub: 'મીટિંગ, ચૂંટણી અને પાણીની ટાંકી સફાઈની જાહેરાત.',
+        post_new_notice: 'નોટિસ મૂકો',
+        cctv_title: 'સિક્યોરિટી CCTV કેમેરા',
+        launch_cctv: 'CCTV લાઈવ જુઓ',
+        directory_title: 'મહત્વના સંપર્કો',
+        directory_sub: 'વોચમેન, પ્લમ્બર, ઇલેક્ટ્રિશિયન - એક ટચમાં કૉલ.',
+        parking_title: 'પાર્કિંગ સ્લોટ અને વિઝિટર લોગ',
+        parking_sub: 'વાહન નંબર અને મુલાકાતીઓની નોંધણી.',
+        log_visitor: 'વિઝિટર નોંધો'
+      },
+      mr: {
+        monthly: 'मासिक',
+        quarterly: 'त्रैमासिक',
+        zero_install_title: 'रहिवाशांसाठी ॲप डाउनलोडची गरज नाही:',
+        zero_install_sub: 'तुम्ही इथून सर्व व्यवस्था पहा. सभासदांना व्हॉट्सॲपवर थेट QR कोड व पावती मिळते.',
+        quick_broadcast: 'व्हॉट्सॲप मेसेज',
+        october_collections: 'चालू महिन्याची वसुली',
+        overdue_amount: 'थकबाकी व शिल्लक',
+        send_wa_all: '⚡ सर्व 6 जणांना व्हॉट्सॲप स्मरणपत्र पाठवा',
+        society_balance: 'सोसायटी बँक शिल्लक',
+        active_grievances: 'तक्रारी व कामे',
+        tab_maintenance: 'देखभाल शुल्क व UPI',
+        tab_expenses: 'खर्च नोंदवही',
+        tab_broadcast: 'व्हॉट्सॲप ब्रॉडकास्ट',
+        tab_grievances: 'तक्रार निवारण',
+        tab_notices: 'सूचना फलक',
+        tab_directory: 'दूरध्वनी सूची व CCTV',
+        tab_parking: 'पार्किंग व अभ्यागत',
+        flats_maintenance_title: 'सभासद देखभाल शुल्क व ई-पावती',
+        flats_maintenance_sub: 'थकबाकी तपासा, तात्काळ QR कोड तयार करा आणि एका क्लिकवर व्हॉट्सॲपवर स्मरणपत्र पाठवा.',
+        remind_all_overdue: 'थकबाकीदारांना स्मरणपत्र',
+        download_excel: 'नोंद डाऊनलोड',
+        all_flats: 'सर्व (48)',
+        filter_pending: 'थकबाकी (6)',
+        filter_paid: 'जमा (42)',
+        col_flat: 'सदनिका व रहिवासी',
+        col_wing: 'विंग',
+        col_status: 'स्थिती',
+        col_due: 'थकबाकी',
+        col_last_payment: 'नोंद / इतिहास',
+        col_actions: 'सचिव कृती',
+        expense_tracking_title: 'सोसायटी खर्च व्यवस्थापन',
+        expense_tracking_sub: 'सण-उत्सव, दुरुस्ती व सुरक्षारक्षक वेतनाचा थेट हिशोब.',
+        add_expense_entry: 'नवीन खर्च नोंदवा',
+        wa_broadcast_title: 'व्हॉट्सॲप ब्रॉडकास्ट',
+        wa_broadcast_sub: 'रहिवाशांना कोणतेही ॲप न घेता थेट व्हॉट्सॲपवर सूचना.',
+        select_audience: 'सभासद निवडा',
+        template_presets: 'नमुना संदेश',
+        message_body: 'संदेश',
+        broadcast_btn: 'व्हॉट्सॲपवर पाठवा',
+        grievances_title: 'सोसायटी तक्रार निवारण कक्ष',
+        grievances_sub: 'छायाचित्रासह तक्रारी [प्रलंबित / सुरू / पूर्ण].',
+        raise_complaint: 'तक्रार नोंदवा',
+        notice_board_title: 'अधिकृत सूचना फलक',
+        notice_board_sub: 'सभा, निवडणुका व दुरुस्ती संदर्भातील सूचना.',
+        post_new_notice: 'सूचना लावा',
+        cctv_title: 'सुरक्षा CCTV कॅमेरे',
+        launch_cctv: 'थेट CCTV पहा',
+        directory_title: 'महत्त्वाचे संपर्क',
+        directory_sub: 'सुरक्षारक्षक, प्लंबर, इलेक्ट्रिशियन - त्वरित संपर्क.',
+        parking_title: 'पार्किंग जागा व अभ्यागत नोंद',
+        parking_sub: 'गाडी क्रमांक व अभ्यागत नोंदवही.',
+        log_visitor: 'अभ्यागत नोंदवा'
+      }
+    };
+
+    // Flats Dataset
+    const flatsData = [
+      { id: 101, wing: 'A', name: 'Rameshwar Sharma', phone: '98201 11234', status: 'paid', due: 0, lastPaid: '02-Oct-2026', history: ['02-Oct-2026: ₹2,500 (UPI)', '03-Sep-2026: ₹2,500 (UPI)', '01-Aug-2026: ₹2,500 (UPI)'] },
+      { id: 102, wing: 'A', name: 'Dr. Sunita Deshmukh', phone: '98202 22345', status: 'paid', due: 0, lastPaid: '04-Oct-2026', history: ['04-Oct-2026: ₹2,500 (UPI)', '02-Sep-2026: ₹2,500 (UPI)'] },
+      { id: 201, wing: 'A', name: 'Bipin V. Patel', phone: '98203 33456', status: 'pending', due: 2500, lastPaid: '10-Sep-2026', overdueNote: 'Due for Oct (15 days)', history: ['10-Sep-2026: ₹2,500 (UPI)', '05-Aug-2026: ₹2,500 (UPI)'] },
+      { id: 202, wing: 'A', name: 'Amitabh Saxena', phone: '98204 44567', status: 'paid', due: 0, lastPaid: '01-Oct-2026', history: ['01-Oct-2026: ₹2,500 (UPI)'] },
+      { id: 301, wing: 'A', name: 'Nilesh Choksi', phone: '98205 55678', status: 'pending', due: 2500, lastPaid: '08-Sep-2026', overdueNote: 'Due for Oct', history: ['08-Sep-2026: ₹2,500 (UPI)'] },
+      { id: 302, wing: 'A', name: 'Kavita Kulkarni', phone: '98206 66789', status: 'paid', due: 0, lastPaid: '05-Oct-2026', history: ['05-Oct-2026: ₹2,500 (UPI)'] },
+      { id: 401, wing: 'A', name: 'C. K. Menon', phone: '98207 77890', status: 'paid', due: 0, lastPaid: '03-Oct-2026', history: ['03-Oct-2026: ₹2,500 (UPI)'] },
+      { id: 402, wing: 'A', name: 'Vikram Singhania', phone: '98208 88901', status: 'paid', due: 0, lastPaid: '02-Oct-2026', history: ['02-Oct-2026: ₹2,500 (UPI)'] },
+      
+      // Wing B Flats (Includes Unit 403 from context file: "Unit 403 hasn't paid since March")
+      { id: 101, wing: 'B', name: 'Pravin Shah', phone: '98209 12345', status: 'paid', due: 0, lastPaid: '06-Oct-2026', history: ['06-Oct-2026: ₹2,500 (UPI)'] },
+      { id: 102, wing: 'B', name: 'Gurpreet Singh', phone: '98210 23456', status: 'pending', due: 2500, lastPaid: '12-Sep-2026', overdueNote: 'Due for Oct', history: ['12-Sep-2026: ₹2,500 (UPI)'] },
+      { id: 201, wing: 'B', name: 'Rajeev Nair', phone: '98211 34567', status: 'paid', due: 0, lastPaid: '01-Oct-2026', history: ['01-Oct-2026: ₹2,500 (UPI)'] },
+      { id: 301, wing: 'B', name: 'Manish Agarwal', phone: '98212 45678', status: 'overdue', due: 5000, lastPaid: '14-Aug-2026', overdueNote: 'Unpaid since August (2 months)', history: ['14-Aug-2026: ₹2,500 (UPI)', '10-Jul-2026: ₹2,500 (UPI)'] },
+      { id: 401, wing: 'B', name: 'Hemant Joshi', phone: '98213 56789', status: 'pending', due: 2500, lastPaid: '05-Sep-2026', overdueNote: 'Due for Oct', history: ['05-Sep-2026: ₹2,500 (UPI)'] },
+      { id: 402, wing: 'B', name: 'Farhan Qureshi', phone: '98214 67890', status: 'paid', due: 0, lastPaid: '04-Oct-2026', history: ['04-Oct-2026: ₹2,500 (UPI)'] },
+      { id: 403, wing: 'B', name: 'Ashish Mehta', phone: '98215 78901', status: 'overdue', due: 7500, lastPaid: '15-Mar-2026', overdueNote: '⚠️ Unpaid since March (3 quarters pending - ₹7,500)', history: ['15-Mar-2026: ₹2,500 (Cheque cleared)', '10-Feb-2026: ₹2,500 (Cash deposit)', '05-Jan-2026: ₹2,500 (UPI)'] }
+    ];
+
+    // Expense Tracking Data
+    const expensesData = [
+      {
+        id: 1,
+        title: 'Navratri Mahotsav & Garba Night',
+        category: 'Festival Fund',
+        collected: 65000,
+        spent: 42000,
+        balance: 23000,
+        vendor: 'DJ & Sound, Aarti Prasad, Stage Lighting',
+        isWarning: false
+      },
+      {
+        id: 2,
+        title: 'Building Water Pump & Plumbing Repairs',
+        category: 'Repairs & Maintenance',
+        collected: 40000,
+        spent: 38500,
+        balance: 1500,
+        vendor: 'Kirloskar Pump Rewinding + Wing B main valve',
+        isWarning: true
+      },
+      {
+        id: 3,
+        title: 'Security Guards & Housekeeping Salaries',
+        category: 'Monthly Operations',
+        collected: 32000,
+        spent: 28000,
+        balance: 4000,
+        vendor: 'Apex Security Services (2 guards + 1 cleaner)',
+        isWarning: false
+      },
+      {
+        id: 4,
+        title: 'Lift AMC & Emergency Battery Backup',
+        category: 'AMC Contracts',
+        collected: 25000,
+        spent: 18000,
+        balance: 7000,
+        vendor: 'Otis Elevators Q3 Maintenance',
+        isWarning: false
+      }
+    ];
+
+    // Grievance Board Data
+    const grievancesData = [
+      {
+        id: 101,
+        title: 'Wing B Lift Jerking between 3rd & 4th floor',
+        location: 'Wing B - Lift #2',
+        flat: 'Flat 401 (B)',
+        reportedBy: 'Hemant Joshi',
+        status: 'in-progress',
+        time: 'Today, 9:15 AM',
+        desc: 'Lift makes a loud grinding noise and jerks during ascent. Otis technician alerted.',
+        photo: 'https://images.unsplash.com/photo-1579208575657-c595a05383b7?auto=format&fit=crop&w=400&q=80'
+      },
+      {
+        id: 102,
+        title: 'Main Pipeline Valve Leakage near Meter Box',
+        location: 'Basement Near Pump Room',
+        flat: 'Flat 102 (A)',
+        reportedBy: 'Dr. Sunita',
+        status: 'open',
+        time: 'Yesterday, 6:30 PM',
+        desc: 'Continuous freshwater dripping from the 2-inch joint. Ramesh plumber scheduled.',
+        photo: 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=400&q=80'
+      },
+      {
+        id: 103,
+        title: 'Corridor Tube Light Fused on 2nd Floor',
+        location: 'Wing A - 2nd Floor Lobby',
+        flat: 'Flat 202 (A)',
+        reportedBy: 'Amitabh Saxena',
+        status: 'done',
+        time: '12-Oct-2026',
+        desc: 'Replaced with 20W Havells LED tube light by Suresh electrician.',
+        photo: 'https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?auto=format&fit=crop&w=400&q=80'
+      }
+    ];
+
+    // Notice Board Data
+    const noticesData = [
+      {
+        id: 1,
+        title: 'Annual General Meeting (AGM) 2026 Notice',
+        date: 'Sunday, 26-Oct-2026 at 10:30 AM',
+        location: 'Society Club House',
+        content: 'All flat owners are requested to attend the mandatory AGM. Agenda includes annual audit report, lift modernization proposal, and election of new committee members.',
+        pinned: true
+      },
+      {
+        id: 2,
+        title: 'Overhead Water Tank Cleaning Schedule',
+        date: 'Thursday, 18-Oct-2026 (9:00 AM - 3:00 PM)',
+        location: 'Tanks A & B',
+        content: 'Water supply will be suspended from 9 AM to 3 PM for automated pressure chemical cleaning. Please store adequate drinking water.',
+        pinned: false
+      },
+      {
+        id: 3,
+        title: 'Diwali Lighting & Rangoli Competition',
+        date: 'Starting 28-Oct-2026',
+        location: 'Society Premises',
+        content: 'Contributions of ₹500 per flat for society compound festival lights can be paid via the dynamic UPI link.',
+        pinned: false
+      }
+    ];
+
+    // Directory Contacts Data
+    const contactsData = [
+      { role: 'Main Gate Watchman (Day)', name: 'Ramu Kaka', phone: '98920 11001', icon: 'shield' },
+      { role: 'Night Security Guard', name: 'Bahadur Singh', phone: '98920 11002', icon: 'moon' },
+      { role: 'Society Plumber', name: 'Ramesh Bhai', phone: '98920 22003', icon: 'wrench' },
+      { role: 'Electrician (On-Call)', name: 'Suresh Sharma', phone: '98920 33004', icon: 'zap' },
+      { role: 'Car Washer / Cleaning', name: 'Vinod Kumar', phone: '98920 44005', icon: 'sparkles' },
+      { role: 'Otis Lift Emergency Tech', name: 'Kiran (Otis Engg)', phone: '98920 55006', icon: 'arrow-up-circle' }
+    ];
+
+    // Parking & Visitor Data
+    const parkingData = [
+      { slot: 'P-01', flat: '101 (A)', name: 'Rameshwar Sharma', vehicle: 'MH-02-CD-4512', type: 'Car (Honda City)', status: 'Resident Parked' },
+      { slot: 'P-02', flat: '102 (A)', name: 'Dr. Sunita Deshmukh', vehicle: 'MH-02-EP-8910', type: 'Car (Creta)', status: 'Resident Parked' },
+      { slot: 'P-03', flat: '201 (A)', name: 'Bipin V. Patel', vehicle: 'MH-02-BT-1122', type: '2-Wheeler (Activa)', status: 'Resident Parked' },
+      { slot: 'P-12', flat: '403 (B)', name: 'Ashish Mehta', vehicle: 'MH-02-AQ-7744', type: 'Car (Innova)', status: 'Resident Parked' },
+      { slot: 'V-01', flat: '302 (A)', name: 'Guest of Kulkarni', vehicle: 'MH-04-AB-9921', type: 'Visitor Car', status: 'Active Visitor (In: 11:20 AM)' }
+    ];
+
+    /* ==========================================================================
+       INITIALIZATION & RENDERING
+       ========================================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderFlatsTable(flatsData);
+      renderExpenses();
+      renderGrievances();
+      renderNotices();
+      renderContacts();
+      renderParking();
+      updateMetricCounts();
+      lucide.createIcons();
+    });
+
+    // Language Toggle
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const dict = translations[lang] || translations.en;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.innerText = dict[key];
+        }
+      });
+
+      showToast(`Language switched to ${lang.toUpperCase()}`);
+    }
+
+    // Billing Cycle Toggle (Monthly ₹2,500 vs Quarterly ₹7,500)
+    function setCycle(cycle) {
+      currentCycle = cycle;
+      const mBtn = document.getElementById('cycle-monthly-btn');
+      const qBtn = document.getElementById('cycle-quarterly-btn');
+
+      if (cycle === 'monthly') {
+        mBtn.classList.add('active');
+        qBtn.classList.remove('active');
+        flatsData.forEach(f => {
+          if (f.status === 'pending') f.due = 2500;
+          if (f.status === 'overdue' && f.id === 403) f.due = 7500;
+        });
+        showToast('Billing cycle: Monthly (₹2,500/flat)');
+      } else {
+        qBtn.classList.add('active');
+        mBtn.classList.remove('active');
+        flatsData.forEach(f => {
+          if (f.status === 'pending') f.due = 7500;
+          if (f.status === 'overdue' && f.id === 403) f.due = 15000;
+        });
+        showToast('Billing cycle: Quarterly (₹7,500/flat)');
+      }
+
+      renderFlatsTable(flatsData);
+      updateMetricCounts();
+    }
+
+    // Tab Navigation
+    function switchTab(tabKey) {
+      const tabs = ['money', 'expenses', 'whatsapp', 'grievances', 'notices', 'contacts', 'parking'];
+      tabs.forEach(t => {
+        const sec = document.getElementById(`tab-content-${t}`);
+        if (sec) sec.style.display = (t === tabKey) ? 'block' : 'none';
+      });
+
+      const navButtons = document.querySelectorAll('.nav-tab-item');
+      navButtons.forEach(btn => btn.classList.remove('active'));
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+      lucide.createIcons();
+    }
+
+    // Update Top Overview Metrics
+    function updateMetricCounts() {
+      const pendingFlats = flatsData.filter(f => f.status === 'pending' || f.status === 'overdue');
+      const paidFlats = flatsData.filter(f => f.status === 'paid');
+      const totalPending = pendingFlats.reduce((sum, f) => sum + f.due, 0);
+      const totalCollected = paidFlats.length * (currentCycle === 'monthly' ? 2500 : 7500);
+
+      document.getElementById('metric-collected-amt').innerText = `₹${totalCollected.toLocaleString('en-IN')}`;
+      document.getElementById('metric-pending-amt').innerText = `₹${totalPending.toLocaleString('en-IN')}`;
+      document.getElementById('metric-pending-count').innerText = `${pendingFlats.length} Flats Due`;
+      document.getElementById('tab-pending-badge').innerText = `${pendingFlats.length} Pending`;
+      document.getElementById('metric-collection-sub').innerText = `${paidFlats.length} of ${flatsData.length} Flats cleared`;
+    }
+
+    // Render Flats Table & Mobile Cards
+    function renderFlatsTable(list) {
+      const tbody = document.getElementById('flats-tbody');
+      tbody.innerHTML = '';
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">No flats matching search query.</td></tr>`;
+        return;
+      }
+
+      list.forEach(flat => {
+        const tr = document.createElement('tr');
+        
+        let statusBadge = '';
+        if (flat.status === 'paid') {
+          statusBadge = `<span class="chip chip-paid"><i data-lucide="check" style="width:12px; height:12px;"></i> Paid</span>`;
+        } else if (flat.status === 'pending') {
+          statusBadge = `<span class="chip chip-pending"><i data-lucide="clock" style="width:12px; height:12px;"></i> Pending</span>`;
+        } else {
+          statusBadge = `<span class="chip chip-overdue"><i data-lucide="alert-circle" style="width:12px; height:12px;"></i> Overdue</span>`;
+        }
+
+        const noteText = flat.overdueNote ? `<div class="overdue-note">${flat.overdueNote}</div>` : `<div style="font-size:11px; color:var(--text-light);">Last: ${flat.lastPaid}</div>`;
+
+        tr.innerHTML = `
+          <td>
+            <div class="mobile-flat-top-row">
+              <div class="flat-cell">
+                <div class="flat-number-badge">
+                  <span>${flat.id}</span>
+                  <span class="flat-wing">WING ${flat.wing}</span>
+                </div>
+                <div>
+                  <div class="resident-name">${flat.name}</div>
+                  <div class="resident-phone">${flat.phone}</div>
+                </div>
+              </div>
+              <div style="display:none;" class="mobile-only-status">
+                ${statusBadge}
+              </div>
+            </div>
+          </td>
+          <td class="desktop-only-cell">
+            <span class="chip chip-neutral" style="font-weight:700;">Wing ${flat.wing}</span>
+          </td>
+          <td class="desktop-only-cell">${statusBadge}</td>
+          <td>
+            <div class="mobile-flat-due-row">
+              <span style="font-size:12px; color:var(--text-muted); font-weight:600;" class="mobile-only-label">Amount Due:</span>
+              <span class="amount-cell">
+                ${flat.due > 0 ? `₹${flat.due.toLocaleString('en-IN')}` : `<span style="color:#059669;">₹0 (Clear)</span>`}
+              </span>
+            </div>
+          </td>
+          <td>${noteText}</td>
+          <td>
+            <div class="actions-cell mobile-flat-actions-row">
+              ${flat.status !== 'paid' ? `
+                <button class="btn btn-sm btn-primary" onclick="openQrModal(${flat.id}, '${flat.wing}')">
+                  <i data-lucide="qr-code" style="width:13px; height:13px;"></i> Show QR
+                </button>
+                <button class="btn btn-sm btn-whatsapp" onclick="sendIndividualWa(${flat.id}, '${flat.wing}')" title="Send WhatsApp Link">
+                  <i data-lucide="send" style="width:13px; height:13px;"></i> WA
+                </button>
+              ` : `
+                <button class="btn btn-sm btn-secondary" onclick="openReceiptModal(${flat.id}, '${flat.wing}')">
+                  <i data-lucide="file-text" style="width:13px; height:13px;"></i> E-Receipt
+                </button>
+              `}
+              <button class="btn btn-sm btn-secondary btn-icon" onclick="openHistoryModal(${flat.id}, '${flat.wing}')" title="Audit History">
+                <i data-lucide="history" style="width:14px; height:14px;"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if (window.innerWidth <= 768) {
+        document.querySelectorAll('.mobile-only-status').forEach(el => el.style.display = 'block');
+        document.querySelectorAll('.desktop-only-cell').forEach(el => el.style.display = 'none');
+      }
+
+      lucide.createIcons();
+    }
+
+    // Filter Flats Handler
+    function filterFlats() {
+      const q = document.getElementById('flat-search-input').value.toLowerCase().trim();
+      const filtered = flatsData.filter(f => {
+        return f.name.toLowerCase().includes(q) || 
+               f.id.toString().includes(q) || 
+               f.phone.includes(q) ||
+               f.wing.toLowerCase().includes(q);
+      });
+      renderFlatsTable(filtered);
+    }
+
+    function setFlatFilter(type, btn) {
+      document.querySelectorAll('.filter-chip-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (type === 'all') {
+        renderFlatsTable(flatsData);
+      } else if (type === 'pending') {
+        renderFlatsTable(flatsData.filter(f => f.status === 'pending' || f.status === 'overdue'));
+      } else if (type === 'paid') {
+        renderFlatsTable(flatsData.filter(f => f.status === 'paid'));
+      } else if (type === 'wing-a') {
+        renderFlatsTable(flatsData.filter(f => f.wing === 'A'));
+      } else if (type === 'wing-b') {
+        renderFlatsTable(flatsData.filter(f => f.wing === 'B'));
+      }
+    }
+
+    // Render Expenses
+    function renderExpenses() {
+      const container = document.getElementById('expenses-container');
+      container.innerHTML = '';
+
+      expensesData.forEach(exp => {
+        const pct = Math.min(100, Math.round((exp.spent / exp.collected) * 100));
+        const card = document.createElement('div');
+        card.className = 'expense-card';
+        card.innerHTML = `
+          <div>
+            <div class="expense-head">
+              <div>
+                <div class="expense-title">${exp.title}</div>
+                <span class="chip chip-neutral" style="font-size:10.5px; margin-top:4px;">${exp.category}</span>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-weight:800; font-size:15px; color:#059669;">+₹${exp.balance.toLocaleString('en-IN')}</div>
+                <span style="font-size:10.5px; color:var(--text-muted);">Balance</span>
+              </div>
+            </div>
+
+            <div class="progress-track">
+              <div class="progress-fill ${exp.isWarning ? 'warn' : ''}" style="width: ${pct}%;"></div>
+            </div>
+
+            <div class="expense-stats-row">
+              <span>Collected: ₹${exp.collected.toLocaleString('en-IN')}</span>
+              <span>Spent: ₹${exp.spent.toLocaleString('en-IN')} (${pct}%)</span>
+            </div>
+          </div>
+
+          <div style="font-size:11.5px; color:var(--text-muted); margin-top:10px; padding-top:8px; border-top:1px dashed var(--color-border);">
+            <strong>Vendor:</strong> ${exp.vendor}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Render Grievances
+    function renderGrievances() {
+      const container = document.getElementById('grievances-container');
+      container.innerHTML = '';
+
+      grievancesData.forEach(g => {
+        let badge = '';
+        if (g.status === 'open') badge = '<span class="chip chip-overdue">Open</span>';
+        else if (g.status === 'in-progress') badge = '<span class="chip chip-pending">In-Progress</span>';
+        else badge = '<span class="chip chip-paid">Done</span>';
+
+        const card = document.createElement('div');
+        card.className = 'grievance-card';
+        card.innerHTML = `
+          <div class="grievance-img-box">
+            <img src="${g.photo}" alt="${g.title}" loading="lazy">
+            <div style="position:absolute; top:8px; right:8px;">${badge}</div>
+          </div>
+          <div class="grievance-body">
+            <div class="grievance-meta">
+              <span class="grievance-loc"><i data-lucide="map-pin" style="width:12px; height:12px;"></i> ${g.location}</span>
+              <span style="font-size:10.5px; color:var(--text-light); white-space:nowrap;">${g.time}</span>
+            </div>
+            <div class="grievance-title">${g.title}</div>
+            <div class="grievance-desc">${g.desc}</div>
+            <div class="grievance-actions">
+              <span style="font-size:11.5px; color:var(--text-muted);">By: <strong>${g.reportedBy}</strong></span>
+              <button class="btn btn-sm btn-secondary" onclick="toggleGrievanceStatus(${g.id})">
+                Update Status
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleGrievanceStatus(id) {
+      const item = grievancesData.find(g => g.id === id);
+      if (item) {
+        if (item.status === 'open') item.status = 'in-progress';
+        else if (item.status === 'in-progress') item.status = 'done';
+        else item.status = 'open';
+        renderGrievances();
+        showToast(`Grievance #${id} status changed to ${item.status.toUpperCase()}`);
+      }
+    }
+
+    // Render Notices
+    function renderNotices() {
+      const container = document.getElementById('notices-container');
+      container.innerHTML = '';
+
+      noticesData.forEach(n => {
+        const card = document.createElement('div');
+        card.className = 'notice-card';
+        card.innerHTML = `
+          <div class="notice-header">
+            <div>
+              <div class="notice-title">
+                ${n.pinned ? '<i data-lucide="pin" style="width:14px; height:14px; color:#0284C7; display:inline;"></i> ' : ''}
+                ${n.title}
+              </div>
+              <div class="notice-date">📅 ${n.date} • 📍 ${n.location}</div>
+            </div>
+            <button class="btn btn-sm btn-whatsapp" onclick="broadcastNoticeWa('${n.title.replace(/'/g, "\\'")}')">
+              <i data-lucide="send" style="width:12px; height:12px;"></i> Share to WA
+            </button>
+          </div>
+          <p class="notice-content">${n.content}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Render Contacts
+    function renderContacts() {
+      const container = document.getElementById('contacts-container');
+      container.innerHTML = '';
+
+      contactsData.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'contact-card';
+        card.innerHTML = `
+          <div class="contact-icon-circle">
+            <i data-lucide="${c.icon}" style="width:20px; height:20px;"></i>
+          </div>
+          <div class="contact-info">
+            <div class="contact-name">${c.name}</div>
+            <div class="contact-role">${c.role}</div>
+            <div style="font-family:'JetBrains Mono'; font-size:11.5px; font-weight:700; color:var(--text-muted);">${c.phone}</div>
+          </div>
+          <div class="contact-actions">
+            <a href="tel:${c.phone.replace(/\\s/g, '')}" class="btn btn-sm btn-secondary btn-icon" title="Call directly">
+              <i data-lucide="phone" style="width:14px; height:14px;"></i>
+            </a>
+            <a href="https://wa.me/91${c.phone.replace(/\\s/g, '')}" target="_blank" class="btn btn-sm btn-whatsapp btn-icon" title="Chat on WhatsApp">
+              <i data-lucide="message-circle" style="width:14px; height:14px;"></i>
+            </a>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Render Parking
+    function renderParking() {
+      const tbody = document.getElementById('parking-tbody');
+      tbody.innerHTML = '';
+
+      parkingData.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${p.slot}</strong></td>
+          <td><span class="chip chip-neutral">${p.flat}</span></td>
+          <td>${p.name}</td>
+          <td><code style="font-weight:700; background:var(--bg-inset); padding:2px 8px; border-radius:6px; font-size:12px; border:1px solid var(--color-border);">${p.vehicle}</code></td>
+          <td>${p.type}</td>
+          <td><span class="chip chip-paid">${p.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ==========================================================================
+       MODAL ACTIONS & UPI QR GENERATION
+       ========================================================================== */
+    function openQrModal(flatId, wing) {
+      const flat = flatsData.find(f => f.id === flatId && f.wing === wing);
+      if (!flat) return;
+
+      currentFlatIdForModal = { id: flatId, wing: wing };
+      document.getElementById('qr-modal-title').innerText = `Dynamic UPI QR • Unit ${flat.id} (Wing ${flat.wing})`;
+      document.getElementById('qr-modal-sub').innerText = `${flat.name} • ${flat.phone}`;
+      document.getElementById('qr-modal-phone').innerText = `+91 ${flat.phone}`;
+      document.getElementById('qr-amount-display').innerText = `₹${flat.due.toLocaleString('en-IN')}`;
+
+      const upiUrl = `upi://pay?pa=gokulheights@upi&pn=GokulHeightsCHS&am=${flat.due}&tn=Maint_${flat.wing}${flat.id}`;
+      const qrApi = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
+      document.getElementById('qr-code-image').src = qrApi;
+
+      document.getElementById('qr-modal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function openReceiptModal(flatId, wing) {
+      const flat = flatsData.find(f => f.id === flatId && f.wing === wing);
+      if (!flat) return;
+
+      document.getElementById('receipt-no').innerText = `GH-2026-${flat.wing}${flat.id}-${Math.floor(1000 + Math.random() * 9000)}`;
+      document.getElementById('receipt-flat').innerText = `Unit ${flat.id} (Wing ${flat.wing}) - ${flat.name}`;
+      document.getElementById('receipt-period').innerText = currentCycle === 'monthly' ? 'October 2026' : 'Q3 (Oct - Dec 2026)';
+      document.getElementById('receipt-amount').innerText = currentCycle === 'monthly' ? '₹2,500' : '₹7,500';
+
+      document.getElementById('receipt-modal').classList.add('active');
+    }
+
+    function openHistoryModal(flatId, wing) {
+      const flat = flatsData.find(f => f.id === flatId && f.wing === wing);
+      if (!flat) return;
+
+      document.getElementById('history-flat-title').innerText = `Unit ${flat.id} (Wing ${flat.wing}) - ${flat.name}`;
+      document.getElementById('history-flat-subtitle').innerText = `Phone: +91 ${flat.phone} • Status: ${flat.status.toUpperCase()}`;
+
+      const listContainer = document.getElementById('history-content-list');
+      listContainer.innerHTML = '';
+
+      if (flat.status === 'overdue') {
+        const warnAlert = document.createElement('div');
+        warnAlert.className = 'alert-banner warning';
+        warnAlert.style.marginBottom = '6px';
+        warnAlert.style.padding = '8px 12px';
+        warnAlert.innerHTML = `<span><strong>Default Alert:</strong> ${flat.overdueNote}</span>`;
+        listContainer.appendChild(warnAlert);
+      }
+
+      flat.history.forEach(item => {
+        const div = document.createElement('div');
+        div.style.cssText = 'padding:8px 12px; background:var(--bg-surface-alt); border-radius:10px; border:1px solid var(--color-border); font-size:12px; display:flex; justify-content:space-between; align-items:center; gap:8px;';
+        div.innerHTML = `
+          <span><i data-lucide="check" style="width:13px; height:13px; color:#059669; vertical-align:middle;"></i> ${item}</span>
+          <span class="chip chip-paid" style="font-size:10px;">Cleared</span>
+        `;
+        listContainer.appendChild(div);
+      });
+
+      document.getElementById('history-modal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function markCurrentFlatPaid() {
+      if (!currentFlatIdForModal) return;
+      const flat = flatsData.find(f => f.id === currentFlatIdForModal.id && f.wing === currentFlatIdForModal.wing);
+      if (flat) {
+        flat.status = 'paid';
+        flat.due = 0;
+        flat.lastPaid = 'Today (15-Oct-2026)';
+        flat.overdueNote = null;
+        flat.history.unshift(`Today (15-Oct-2026): ₹2,500 (UPI Verified)`);
+        
+        closeModal('qr-modal');
+        renderFlatsTable(flatsData);
+        updateMetricCounts();
+        openReceiptModal(flat.id, flat.wing);
+        showToast(`Unit ${flat.id} (${flat.wing}) marked as Paid! E-Receipt generated.`);
+      }
+    }
+
+    function copyUpiLink() {
+      navigator.clipboard.writeText('upi://pay?pa=gokulheights@upi&pn=GokulHeightsCHS&am=2500');
+      showToast('UPI payment link copied to clipboard!');
+    }
+
+    function sendQrOnWhatsApp() {
+      showToast('QR code and dynamic UPI link sent to resident WhatsApp!');
+      closeModal('qr-modal');
+    }
+
+    function shareReceiptWhatsApp() {
+      showToast('E-Receipt PDF shared with resident on WhatsApp!');
+      closeModal('receipt-modal');
+    }
+
+    function sendIndividualWa(id, wing) {
+      const flat = flatsData.find(f => f.id === id && f.wing === wing);
+      showToast(`WhatsApp payment reminder & QR sent to ${flat.name} (${flat.phone})`);
+    }
+
+    function sendBulkOverdueReminders() {
+      showToast('⚡ Instant WhatsApp reminders + auto UPI QR sent to all 6 overdue flats!');
+    }
+
+    function exportMaintenanceReport() {
+      showToast('Exported Gokul_Heights_Maintenance_Oct2026.csv');
+    }
+
+    function launchCctvPortal() {
+      alert('Connecting to Gokul Heights Dahua/Hikvision NVR Portal (IP: 192.168.1.100:8000). Cameras: 8 Online.');
+    }
+
+    // WhatsApp Broadcast Simulation
+    function updateWaPreview() {
+      const text = document.getElementById('wa-body').value;
+      document.getElementById('wa-phone-text').innerText = text;
+    }
+
+    function setWaTemplate(type) {
+      const textarea = document.getElementById('wa-body');
+      if (type === 'maintenance') {
+        textarea.value = `Dear Resident,\nSociety Maintenance for October 2026 of ₹2,500 is due.\n\nPlease scan the attached QR or pay to:\nUPI: gokulheights@upi\nBeneficiary: Gokul Heights CHS\n\nInstant PDF receipt generated automatically once cleared.`;
+      } else if (type === 'tank') {
+        textarea.value = `📢 NOTICE: Water Tank Cleaning\nDate: Thursday, 18-Oct-2026\nTime: 9:00 AM - 3:00 PM\n\nWater supply will be temporarily stopped. Please store necessary water in advance. Thank you!`;
+      } else if (type === 'agm') {
+        textarea.value = `🗳️ OFFICIAL NOTICE: Annual General Meeting (AGM)\nDate: Sunday, 26-Oct-2026 at 10:30 AM\nVenue: Society Club House\n\nMandatory attendance requested for all flat owners.`;
+      } else if (type === 'fest') {
+        textarea.value = `🪔 Navratri & Garba Celebration 2026\nDear Society Members, we invite everyone for the Garba Night on Saturday at 7:30 PM. Prasad and light snacks will be served!`;
+      }
+      updateWaPreview();
+    }
+
+    function sendSimulatedBroadcast() {
+      const audience = document.getElementById('wa-audience').value;
+      showToast(`📢 Broadcast delivered successfully to ${audience.toUpperCase()} via WhatsApp!`);
+    }
+
+    function broadcastNoticeWa(title) {
+      showToast(`Notice "${title}" forwarded to all society WhatsApp numbers!`);
+    }
+
+    function openBroadcastModal() {
+      switchTab('whatsapp');
+    }
+
+    function openNewGrievanceModal() {
+      const title = prompt('Enter grievance headline:');
+      const loc = prompt('Enter location (e.g. Wing A 1st Floor):');
+      if (title && loc) {
+        grievancesData.unshift({
+          id: Date.now(),
+          title: title,
+          location: loc,
+          flat: 'Flat 301 (A)',
+          reportedBy: 'Nilesh Choksi',
+          status: 'open',
+          time: 'Just now',
+          desc: 'Logged by secretary on behalf of resident.',
+          photo: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=400&q=80'
+        });
+        renderGrievances();
+        showToast('New grievance added successfully!');
+      }
+    }
+
+    function openNewExpenseModal() {
+      const title = prompt('Enter Expense/Fund Name (e.g. Diwali Lights):');
+      const collected = prompt('Amount Collected (₹):', '20000');
+      const spent = prompt('Amount Spent (₹):', '12000');
+      if (title && collected) {
+        expensesData.unshift({
+          id: Date.now(),
+          title: title,
+          category: 'Ad-hoc Event',
+          collected: parseInt(collected),
+          spent: parseInt(spent || 0),
+          balance: parseInt(collected) - parseInt(spent || 0),
+          vendor: 'Direct Society Vendor',
+          isWarning: false
+        });
+        renderExpenses();
+        showToast('New expense fund created!');
+      }
+    }
+
+    function openNewNoticeModal() {
+      const title = prompt('Notice Title:');
+      const content = prompt('Notice Details:');
+      if (title && content) {
+        noticesData.unshift({
+          id: Date.now(),
+          title: title,
+          date: 'Posted Today',
+          location: 'Notice Board',
+          content: content,
+          pinned: false
+        });
+        renderNotices();
+        showToast('New society notice posted!');
+      }
+    }
+
+    function logVisitorModal() {
+      const vName = prompt('Visitor Name:');
+      const flat = prompt('Visiting Flat Number (e.g. 201 A):');
+      const vehicle = prompt('Vehicle Number (optional):', 'MH-02-XX-0000');
+      if (vName && flat) {
+        parkingData.unshift({
+          slot: `V-0${parkingData.length + 1}`,
+          flat: flat,
+          name: vName,
+          vehicle: vehicle || 'Pedestrian',
+          type: 'Guest Visitor',
+          status: 'Active (Just Checked In)'
+        });
+        renderParking();
+        showToast(`Visitor ${vName} checked in for Flat ${flat}!`);
+      }
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById('app-toast');
+      document.getElementById('toast-text').innerText = text;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3200);
+    }
+
+    window.addEventListener('resize', () => {
+      renderFlatsTable(flatsData);
+    });
+  </script>
+</body>
+</html>
